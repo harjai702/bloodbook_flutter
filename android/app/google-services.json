@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "983118077693",
+    "firebase_url": "https://blodbook.firebaseio.com",
+    "project_id": "blodbook",
+    "storage_bucket": "blodbook.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:983118077693:android:d6251e444b7269cb6d6894",
+        "android_client_info": {
+          "package_name": "com.example.bloodbook"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "983118077693-3g87gitbsl83ftasfdhmrvk566s20mh3.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAJi9O69qT-HoD39lLGarHgSiC694tEvBQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "983118077693-3g87gitbsl83ftasfdhmrvk566s20mh3.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
