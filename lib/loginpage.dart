@@ -106,12 +106,25 @@ class _MyLoginPageState extends State<LoginPage> with SingleTickerProviderStateM
                         ),
                       ),
                     ),
-                    SizedBox(width: 20.0,),
+                    //SizedBox(width: 20.0,),
                     InkWell(
                       onTap: (){
                         Navigator.of(context).pushNamed('/phnsign');
                       },
                       child:Text('Phone Register',
+                        style:TextStyle(
+                          color:Colors.red[900],
+                          fontFamily: 'Montserrat',
+                          fontWeight: FontWeight.bold,
+                          decoration:TextDecoration.underline,
+                        ),
+                      ),
+                    ),
+                    InkWell(
+                      onTap: (){
+                        Navigator.of(context).pushNamed('/feedpage');
+                      },
+                      child:Text('feed page',
                         style:TextStyle(
                           color:Colors.red[900],
                           fontFamily: 'Montserrat',

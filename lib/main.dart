@@ -1,6 +1,7 @@
 import 'package:bloodbook/loginpage.dart';
 import 'signuppage.dart';
 import 'dart:async';
+import 'feed.dart';
 import 'package:flexible/flexible.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -20,7 +21,8 @@ class MyApp extends StatelessWidget {
             debugShowCheckedModeBanner: false,
             routes: <String, WidgetBuilder>{
               '/signup': (BuildContext context) => new SignupPage(),
-              '/phnsign': (BuildContext context) => new PhnSign(),}
+              '/phnsign': (BuildContext context) => new PhnSign(),
+              '/feedpage': (BuildContext context) => new FeedPage(),}
           );
         },
       ),
