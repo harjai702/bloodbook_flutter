@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flexible/flexible.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'usermanagement.dart';
+import 'package:location/location.dart';
 class SignupPage extends StatefulWidget {
   @override
   _MySignupPageState createState() => new _MySignupPageState();
@@ -10,6 +11,22 @@ class _MySignupPageState extends State<SignupPage> with SingleTickerProviderStat
   String _email;
   String _password;
   String _name;
+  String lattitide="";
+  String longitude="";
+  @override
+  void initState(){
+    super.initState();
+    getLocation();
+  }
+  getLocation() async{
+    Location location=new Location();
+    LocationData _location;
+    _location = await location.getLocation();
+    setState(() {
+      lattitide=_location.latitude.toString();
+      longitude=_location.longitude.toString();
+    });
+  }
   @override
   Widget build(BuildContext context) {
     return ScreenFlexibleWidget(
@@ -100,7 +117,8 @@ class _MySignupPageState extends State<SignupPage> with SingleTickerProviderStat
                                 email: _email,
                                 password: _password
                             ).then((signedInUser){
-                              UserManagement().storeNewUser(signedInUser.user,context,_name);
+                              UserManagement().storeNewUser(signedInUser.user,context,_name,lattitide,longitude);
+                              Navigator.of(context).pushNamed('/feedpage');
                             })
                                 .catchError((e){
                               print(e);

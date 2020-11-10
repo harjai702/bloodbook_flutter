@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'package:flexible/flexible.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 //import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flexible/flexible.dart';
 import 'package:flutter/material.dart';
@@ -78,6 +79,15 @@ class _MyLoginPageState extends State<LoginPage> with SingleTickerProviderStateM
                     borderRadius: BorderRadius.circular(flexible(context, 40.0)),
                   ),
                   child: FlatButton(
+                    onPressed: (){
+                      FirebaseAuth.instance.signInWithEmailAndPassword(email: _email, password: _password)
+                          .then((FutureOr user){
+                        Navigator.of(context).pushReplacementNamed('/feedpage');
+                      })
+                          .catchError((e){
+                        print(e);
+                      });
+                    },
                     child: Text('Login',style: TextStyle(color: Colors.white,fontWeight: FontWeight.bold,fontSize: 16.0),),
                   ),
 
