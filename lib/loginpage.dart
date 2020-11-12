@@ -9,8 +9,8 @@ class LoginPage extends StatefulWidget {
   _MyLoginPageState createState() => new _MyLoginPageState();
 }
 class _MyLoginPageState extends State<LoginPage> with SingleTickerProviderStateMixin{
-  String _email;
-  String _password;
+  String _email="harsh12@gmail.com";
+  String _password="harjai702";
   @override
   Widget build(BuildContext context) {
     return new Scaffold(
@@ -68,7 +68,7 @@ class _MyLoginPageState extends State<LoginPage> with SingleTickerProviderStateM
                       _password=value;
                     });
                   },
-                  obscureText:true,
+                  //obscureText:true,
                 ),
                 SizedBox(height: flexible(context, 30.0),),
                 Container(
