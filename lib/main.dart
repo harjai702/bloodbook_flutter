@@ -31,16 +31,16 @@ class MyApp extends StatelessWidget {
 }
 
 class MyHomePage extends StatefulWidget {
-  @override
-  SplashScreenState createState() => SplashScreenState();
-}
-class SplashScreenState extends State<MyHomePage> {
-  @override
-  void initState() {
-    super.initState();
-    Timer(Duration(seconds: 3),
-            ()=>Navigator.pushReplacement(context,
-            MaterialPageRoute(builder:
+        @override
+        SplashScreenState createState() => SplashScreenState();
+        }
+        class SplashScreenState extends State<MyHomePage> {
+        @override
+        void initState() {
+        super.initState();
+        Timer(Duration(seconds: 3),
+        ()=>Navigator.pushReplacement(context,
+        MaterialPageRoute(builder:
                 (context) => LoginPage()
             )
         )

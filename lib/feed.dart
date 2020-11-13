@@ -4,6 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'address.dart';
 import 'package:location/location.dart';
 import 'crud.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:geolocator/geolocator.dart';
 class FeedPage extends StatefulWidget {
   @override
@@ -12,9 +13,11 @@ class FeedPage extends StatefulWidget {
 class _FeedPageState extends State<FeedPage> with SingleTickerProviderStateMixin{
   String address="abc";
   Stream feeddata;
+  bool _selected=false;
   var now = new DateTime.now().toString();
   crudMethods crudObj=new crudMethods();
   String phnnumber;
+  String pr="_spinweel()";
   String emailaddress;
   String uuid;
   String date;
@@ -108,13 +111,8 @@ class _FeedPageState extends State<FeedPage> with SingleTickerProviderStateMixin
   }
   @override
   void initState(){
-    crudObj.getData().then((results){
-      setState((){
-        feeddata = results;
-      });
-    });
-    super.initState();
     uuid=FirebaseAuth.instance.currentUser.uid;
+    super.initState();
     getLocation();
   }
   getvalue(String uuid) async{
@@ -140,13 +138,24 @@ class _FeedPageState extends State<FeedPage> with SingleTickerProviderStateMixin
     });
   }
   void getLocation() async{
+    setState(() {
+      _selected=false;
+    });
+   await  crudObj.getData().then((results){
+      setState((){
+        feeddata = results;
+      });
+    });
+    setState(() {
+      _selected=true;
+    });
     Location location=new Location();
     LocationData _location;
     _location = await location.getLocation();
     a=_location.latitude;
     b=_location.longitude;
     await getvalue(uuid);
-    updateData(selectedDoc,{
+    await updateData(selectedDoc,{
       'lattitide': a.toString(),
       'longitude': b.toString()
     });
@@ -174,44 +183,60 @@ class _FeedPageState extends State<FeedPage> with SingleTickerProviderStateMixin
   @override
   Widget build(BuildContext context) {
     return new Scaffold(
-      body: SingleChildScrollView(
-        child:Expanded(
-          child: Column(
-            //crossAxisAlignment: CrossAxisAlignment.center,
-            children: <Widget>[
-              SizedBox(height: 60.0,),
-              Text("Latitude: "+lattitide+", Longitude: "+longitude),
-              SizedBox(height: 10.0,),
-              Text("Distance: "+distanceInMeters),
-              SizedBox(height: 30.0,),
-              Container(
-                padding: EdgeInsets.fromLTRB(250.0, 0.0, 0.0, 0.0),
-                child:FloatingActionButton(
-                  onPressed: (){
-                    addDialog(context);
-                  },
-                  elevation: 0.0,
-                  backgroundColor: Colors.lightGreen,
-                  child: Icon(Icons.add),
-                ),
+      body:SingleChildScrollView(
+        child:Column(
+          //crossAxisAlignment: CrossAxisAlignment.center,
+          children: <Widget>[
+            SizedBox(height: 60.0,),
+            Text("Latitude: "+lattitide+", Longitude: "+longitude),
+            SizedBox(height: 10.0,),
+            Text("Distance: "+distanceInMeters),
+            SizedBox(height: 30.0,),
+            Container(
+              padding: EdgeInsets.fromLTRB(250.0, 0.0, 0.0, 0.0),
+              child:FloatingActionButton(
+                onPressed: (){
+                  addDialog(context);
+                },
+                elevation: 0.0,
+                backgroundColor: Colors.lightGreen,
+                child: Icon(Icons.add),
               ),
-              Container(
+            ),
+            Visibility(
+              visible:!_selected,
+              child: Container(
                 height: 400.0,
                 width: 400.0,
-                child: _carList(),
+                child: _spinweel(),
               ),
-
-
-            ],
-          ),
+            ),
+            Visibility(
+              visible: _selected,
+              child: Container(
+                height: 400.0,
+                width: 400.0,
+                child: _postList(),
+              ),
+            ),
+          ],
         ),
-        ),
+      ),
     );
   }
-  Widget _carList(){
+  Widget _spinweel(){
+    return Scaffold(
+      body: Center(
+      child: SpinKitDoubleBounce(
+      color:Colors.grey,
+      size:100.0,
+    ),),);
+  }
+  Widget _postList(){
     if(feeddata!=null){
-      return StreamBuilder(
-          stream:feeddata,
+      return FutureBuilder(
+        future: FirebaseFirestore.instance.collection('postData').snapshots(),
+          stream:FirebaseFirestore.instance.collection('postData').snapshots(),
           builder: (context, snapshot){
             return ListView.builder(
               itemCount: snapshot.data.docs.length,
