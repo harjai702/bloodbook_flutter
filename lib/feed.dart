@@ -13,7 +13,8 @@ class FeedPage extends StatefulWidget {
 class _FeedPageState extends State<FeedPage> with SingleTickerProviderStateMixin{
   String address="abc";
   Stream feeddata;
-  bool _selected=false;
+  Future fedata;
+  bool _selected=true;
   var now = new DateTime.now().toString();
   crudMethods crudObj=new crudMethods();
   String phnnumber;
@@ -138,18 +139,20 @@ class _FeedPageState extends State<FeedPage> with SingleTickerProviderStateMixin
     });
   }
   void getLocation() async{
-    setState(() {
-      _selected=false;
-    });
-   await  crudObj.getData().then((results){
+   /*await  crudObj.getData().then((results){
       setState((){
         feeddata = results;
+        _selected=true;
       });
-    });
-    setState(() {
-      _selected=true;
-    });
-    Location location=new Location();
+    });*/
+   /*setState(() {
+     _selected=false;
+   });*/
+   fedata=FirebaseFirestore.instance.collection('postData').get();
+   setState(() {
+     _selected=true;
+   });
+   Location location=new Location();
     LocationData _location;
     _location = await location.getLocation();
     a=_location.latitude;
@@ -233,10 +236,10 @@ class _FeedPageState extends State<FeedPage> with SingleTickerProviderStateMixin
     ),),);
   }
   Widget _postList(){
-    if(feeddata!=null){
+    if(_selected&&fedata!=null){
       return FutureBuilder(
-        future: FirebaseFirestore.instance.collection('postData').snapshots(),
-          stream:FirebaseFirestore.instance.collection('postData').snapshots(),
+        //stream: feeddata,
+          future:fedata,
           builder: (context, snapshot){
             return ListView.builder(
               itemCount: snapshot.data.docs.length,
@@ -258,7 +261,12 @@ class _FeedPageState extends State<FeedPage> with SingleTickerProviderStateMixin
       );
     }
     else{
-      return Text('Loading, Please wait..');
+      return Scaffold(
+        body: Center(
+          child: SpinKitDoubleBounce(
+            color:Colors.grey,
+            size:100.0,
+          ),),);
     }
   }
 }
