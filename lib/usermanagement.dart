@@ -1,16 +1,27 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/widgets.dart';
+import 'package:geoflutterfire/geoflutterfire.dart';
 class UserManagement{
-  storeNewUser(user,context,dispname,lattitude,longitude){
+  final geo = Geoflutterfire();
+  GeoFirePoint loc;
+  storeNewUser(user,context,dispname,center){
+    loc=center;
     FirebaseFirestore.instance.collection('/users').add({
       'email':user.email,
       'uid':user.uid,
       'displayName': dispname,
-      'lattitude': lattitude,
-      'longitude': longitude,
     }).then((value){
       //
     }).catchError((e){
+      print(e);
+    });
+    addlocation(user.uid,center);
+  }
+  void addlocation(String uuid,center) async{
+    await FirebaseFirestore
+        .instance.collection('locations')
+        .add({'usrid':uuid,'position':center.data})
+        .catchError((e){
       print(e);
     });
   }

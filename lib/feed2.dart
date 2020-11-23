@@ -1,3 +1,4 @@
+import 'package:bloodbook/loactionModel.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -15,7 +16,9 @@ class _Feed2PageState extends State<Feed2Page> with SingleTickerProviderStateMix
   var uuid;
   Stream<List<DocumentSnapshot>> stream;
   final geo = Geoflutterfire();
+  List<GeoLocationInfo> listOfUser= new List<GeoLocationInfo>();
   var selectedDoc;
+  bool vis=false;
   @override
   void initState(){
     super.initState();
@@ -48,7 +51,7 @@ class _Feed2PageState extends State<Feed2Page> with SingleTickerProviderStateMix
         .catchError((e){
       print(e);
     });
-    double radius = 50;
+    double radius = 2;
     String field = 'position';
     var collectionReference = FirebaseFirestore.instance.collection('locations');
     setState(() {
@@ -56,7 +59,15 @@ class _Feed2PageState extends State<Feed2Page> with SingleTickerProviderStateMix
           .within(center: center, radius: radius, field: field);
     });
     stream.listen((List<DocumentSnapshot> documentList) {
-      print(documentList);
+      documentList.forEach((element) {
+        GeoLocationInfo user;
+        user=GeoLocationInfo.fromJson(element.data());
+        listOfUser.add(user);
+      });
+      setState(() {
+        listOfUser=listOfUser;
+        vis=true;
+      });
     });
     /*location.onLocationChanged.listen((LocationData currentLocation) {
       updateposition();
@@ -77,7 +88,7 @@ class _Feed2PageState extends State<Feed2Page> with SingleTickerProviderStateMix
               Container(
                 height: 400.0,
                 width: 400.0,
-                //child: _postList(),
+                child: _postList(),
               ),
             ],
           ),
@@ -85,22 +96,16 @@ class _Feed2PageState extends State<Feed2Page> with SingleTickerProviderStateMix
     );
   }
   Widget _postList(){
-    if(stream!=null){
-      return StreamBuilder(
-        stream: stream,
-          //future:fedata,
-          builder: (context, snapshot){
-            return ListView.builder(
-              itemCount: snapshot.data.docs.length,
+    if(vis){
+      return ListView.builder(
+              itemCount: listOfUser.length,
               //padding: EdgeInsets.all(5.0),
               itemBuilder: (context,i){
                 return new ListTile(
-                  title: Text(snapshot.data.docs[i].data()['usrid']),
+                  title: Text(listOfUser[i].usrid),
                 );
               },
             );
-          }
-      );
     }
     else{
       return Scaffold(

@@ -3,6 +3,7 @@ import 'package:flexible/flexible.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'usermanagement.dart';
 import 'package:location/location.dart';
+import 'package:geoflutterfire/geoflutterfire.dart';
 class SignupPage extends StatefulWidget {
   @override
   _MySignupPageState createState() => new _MySignupPageState();
@@ -13,6 +14,8 @@ class _MySignupPageState extends State<SignupPage> with SingleTickerProviderStat
   String _name;
   String lattitide="";
   String longitude="";
+  GeoFirePoint loc;
+  final geo = Geoflutterfire();
   @override
   void initState(){
     super.initState();
@@ -22,9 +25,9 @@ class _MySignupPageState extends State<SignupPage> with SingleTickerProviderStat
     Location location=new Location();
     LocationData _location;
     _location = await location.getLocation();
+   GeoFirePoint center = geo.point(latitude: _location.latitude, longitude: _location.longitude);
     setState(() {
-      lattitide=_location.latitude.toString();
-      longitude=_location.longitude.toString();
+      loc=center;
     });
   }
   @override
@@ -117,7 +120,7 @@ class _MySignupPageState extends State<SignupPage> with SingleTickerProviderStat
                                 email: _email,
                                 password: _password
                             ).then((signedInUser){
-                              UserManagement().storeNewUser(signedInUser.user,context,_name,lattitide,longitude);
+                              UserManagement().storeNewUser(signedInUser.user,context,_name,loc);
                               Navigator.of(context).pushNamed('/feedpage');
                             })
                                 .catchError((e){

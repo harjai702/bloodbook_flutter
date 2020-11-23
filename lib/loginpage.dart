@@ -1,4 +1,6 @@
 import 'dart:async';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:geoflutterfire/geoflutterfire.dart';
 import 'package:flexible/flexible.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 //import 'package:firebase_auth/firebase_auth.dart';
@@ -11,6 +13,21 @@ class LoginPage extends StatefulWidget {
 class _MyLoginPageState extends State<LoginPage> with SingleTickerProviderStateMixin{
   String _email="harsh12@gmail.com";
   String _password="harjai702";
+  String uuid="helloharsh";
+  double latitude=30.055126;
+  double longitude=77.259419;
+  final geo = Geoflutterfire();
+  void adduser() async{
+    GeoFirePoint center = geo.point(latitude: latitude, longitude: longitude);
+    //GeoPoint g=await new GeoPoint(_location.latitude,_location.longitude);
+    //print(g);
+    await FirebaseFirestore
+        .instance.collection('locations')
+        .add({'usrid':uuid,'position':center.data})
+        .catchError((e){
+      print(e);
+    });
+  }
   @override
   Widget build(BuildContext context) {
     return new Scaffold(
@@ -119,9 +136,9 @@ class _MyLoginPageState extends State<LoginPage> with SingleTickerProviderStateM
                     //SizedBox(width: 20.0,),
                     InkWell(
                       onTap: (){
-                        Navigator.of(context).pushNamed('/phnsign');
+                        adduser();
                       },
-                      child:Text('Phone Register',
+                      child:Text('adduser',
                         style:TextStyle(
                           color:Colors.red[900],
                           fontFamily: 'Montserrat',
