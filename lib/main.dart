@@ -7,6 +7,8 @@ import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'loginpage.dart';
 import 'phnsignup.dart';
+import 'post.dart';
+import 'notificationtrial.dart';
 void main() { runApp(MyApp());
 Firebase.initializeApp();}
 
@@ -22,7 +24,10 @@ class MyApp extends StatelessWidget {
             routes: <String, WidgetBuilder>{
               '/signup': (BuildContext context) => new SignupPage(),
               '/phnsign': (BuildContext context) => new PhnSign(),
-              '/feedpage': (BuildContext context) => new Feed2Page(),}
+              '/feedpage': (BuildContext context) => new Feed2Page(),
+              '/postpage': (BuildContext context) => new PostPage(),
+              '/pushnot': (BuildContext context) => new Notificationstate1(),
+            }
           );
         },
       ),

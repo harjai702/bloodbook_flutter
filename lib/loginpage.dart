@@ -136,22 +136,9 @@ class _MyLoginPageState extends State<LoginPage> with SingleTickerProviderStateM
                     //SizedBox(width: 20.0,),
                     InkWell(
                       onTap: (){
-                        adduser();
+                        Navigator.of(context).pushNamed('/pushnot');
                       },
-                      child:Text('adduser',
-                        style:TextStyle(
-                          color:Colors.red[900],
-                          fontFamily: 'Montserrat',
-                          fontWeight: FontWeight.bold,
-                          decoration:TextDecoration.underline,
-                        ),
-                      ),
-                    ),
-                    InkWell(
-                      onTap: (){
-                        Navigator.of(context).pushNamed('/feedpage');
-                      },
-                      child:Text('feed page',
+                      child:Text(' Notification',
                         style:TextStyle(
                           color:Colors.red[900],
                           fontFamily: 'Montserrat',

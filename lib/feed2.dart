@@ -1,3 +1,4 @@
+import 'package:bloodbook/card.dart';
 import 'package:bloodbook/loactionModel.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -53,7 +54,7 @@ class _Feed2PageState extends State<Feed2Page> with SingleTickerProviderStateMix
     });
     double radius = 2;
     String field = 'position';
-    var collectionReference = FirebaseFirestore.instance.collection('locations');
+    var collectionReference = FirebaseFirestore.instance.collection('postdata');
     setState(() {
       stream = geo.collection(collectionRef: collectionReference)
           .within(center: center, radius: radius, field: field);
@@ -85,6 +86,20 @@ class _Feed2PageState extends State<Feed2Page> with SingleTickerProviderStateMix
                   child:Text('Hello World'),
                 ),
               ),
+              SizedBox(height: 20.0,),
+              Container(
+                padding: EdgeInsets.fromLTRB(250.0, 0.0, 0.0, 0.0),
+                child:FloatingActionButton(
+                  onPressed: (){
+                    listOfUser.clear();
+                    Navigator.of(context).pushNamed('/postpage');
+                  },
+                  elevation: 0.0,
+                  backgroundColor: Colors.lightGreen,
+                  child: Icon(Icons.add),
+                ),
+              ),
+              SizedBox(height: 20.0,),
               Container(
                 height: 400.0,
                 width: 400.0,
@@ -101,8 +116,13 @@ class _Feed2PageState extends State<Feed2Page> with SingleTickerProviderStateMix
               itemCount: listOfUser.length,
               //padding: EdgeInsets.all(5.0),
               itemBuilder: (context,i){
-                return new ListTile(
-                  title: Text(listOfUser[i].usrid),
+                String address=listOfUser[i].address1.toString()+","+listOfUser[i].address2.toString()+","+listOfUser[i].city.toString()+","+listOfUser[i].state.toString();
+                return new CardUi(
+                  name: listOfUser[i].name,
+                  bgroup: listOfUser[i].bgroup,
+                  userId: listOfUser[i].usrid,
+                  adress: address,
+                  //adress: (listOfUser[i].address1.to+","+listOfUser[i].address2+","+listOfUser[i].address3+","+listOfUser[i].address4).toString(),
                 );
               },
             );
