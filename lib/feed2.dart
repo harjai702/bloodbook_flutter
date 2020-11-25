@@ -1,5 +1,6 @@
 import 'package:bloodbook/card.dart';
 import 'package:bloodbook/loactionModel.dart';
+import 'package:bloodbook/post.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -15,6 +16,7 @@ class Feed2Page extends StatefulWidget {
 }
 class _Feed2PageState extends State<Feed2Page> with SingleTickerProviderStateMixin {
   var uuid;
+  String username;
   Stream<List<DocumentSnapshot>> stream;
   final geo = Geoflutterfire();
   List<GeoLocationInfo> listOfUser= new List<GeoLocationInfo>();
@@ -25,6 +27,7 @@ class _Feed2PageState extends State<Feed2Page> with SingleTickerProviderStateMix
     super.initState();
     uuid=FirebaseAuth.instance.currentUser.uid;
     getvalue(uuid);
+    getusername(uuid);
     updateposition();
   }
   void getvalue(String uuid) async{
@@ -33,6 +36,17 @@ class _Feed2PageState extends State<Feed2Page> with SingleTickerProviderStateMix
       element.docs.forEach((element) {
         setState(() {
           selectedDoc=element.id;
+          username=element.data()['displayName'];
+        });
+      });
+    });
+  }
+  void getusername(String uuid) async{
+    var exp=await FirebaseFirestore.instance.collection('users').where('uid',isEqualTo: uuid).snapshots();
+    await exp.forEach((element) {
+      element.docs.forEach((element) {
+        setState(() {
+          username=element.data()['displayName'];
         });
       });
     });
@@ -68,6 +82,8 @@ class _Feed2PageState extends State<Feed2Page> with SingleTickerProviderStateMix
       setState(() {
         listOfUser=listOfUser;
         vis=true;
+        listOfUser.sort((a, b) => a.address1.compareTo(b.address1));
+        //listOfUser.sort();
       });
     });
     /*location.onLocationChanged.listen((LocationData currentLocation) {
@@ -86,13 +102,29 @@ class _Feed2PageState extends State<Feed2Page> with SingleTickerProviderStateMix
                   child:Text('Hello World'),
                 ),
               ),
+              Container(
+              child: FlatButton(
+                onPressed: (){
+                  FirebaseAuth.instance.signOut();
+                  //Navigator.of(context).pushNamed('/login');
+                  Navigator.pop(context);
+                },
+                child: Text('Logout!',style: TextStyle(fontWeight: FontWeight.bold,color: Colors.red),),
+              ),  
+              ),
               SizedBox(height: 20.0,),
               Container(
                 padding: EdgeInsets.fromLTRB(250.0, 0.0, 0.0, 0.0),
                 child:FloatingActionButton(
                   onPressed: (){
                     listOfUser.clear();
-                    Navigator.of(context).pushNamed('/postpage');
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => PostPage(
+                            username: username,
+                          )),
+                    );
                   },
                   elevation: 0.0,
                   backgroundColor: Colors.lightGreen,

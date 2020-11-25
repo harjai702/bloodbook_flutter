@@ -16,6 +16,7 @@ class _MyLoginPageState extends State<LoginPage> with SingleTickerProviderStateM
   String uuid="helloharsh";
   double latitude=30.055126;
   double longitude=77.259419;
+  bool vis=true;
   final geo = Geoflutterfire();
   void adduser() async{
     GeoFirePoint center = geo.point(latitude: latitude, longitude: longitude);
@@ -88,26 +89,50 @@ class _MyLoginPageState extends State<LoginPage> with SingleTickerProviderStateM
                   //obscureText:true,
                 ),
                 SizedBox(height: flexible(context, 30.0),),
-                Container(
-                  padding: EdgeInsets.fromLTRB(flexible(context, 20.0), 0.0, flexible(context, 20.0), 0.0),
-                  width: flexible(context, 200.0),
-                  decoration: BoxDecoration(
-                    color: Colors.red[900],
-                    borderRadius: BorderRadius.circular(flexible(context, 40.0)),
+                Visibility(
+                  visible: !vis,
+                  child: Container(
+                    padding: EdgeInsets.fromLTRB( 20.0, 0.0, 20.0, 0.0),
+                    width:  200.0,
+                    decoration: BoxDecoration(
+                      color: Colors.red[900],
+                      borderRadius: BorderRadius.circular(40.0),
+                    ),
+                    child: FlatButton(
+                      onPressed: (){
+                        //addpost();
+                      },
+                      child: new CircularProgressIndicator(backgroundColor: Colors.white,valueColor: new AlwaysStoppedAnimation<Color>(Colors.red[900]),
+                      ),
+                    ),
                   ),
-                  child: FlatButton(
-                    onPressed: (){
-                      FirebaseAuth.instance.signInWithEmailAndPassword(email: _email, password: _password)
-                          .then((FutureOr user){
-                        Navigator.of(context).pushReplacementNamed('/feedpage');
-                      })
-                          .catchError((e){
-                        print(e);
-                      });
-                    },
-                    child: Text('Login',style: TextStyle(color: Colors.white,fontWeight: FontWeight.bold,fontSize: 16.0),),
-                  ),
+                ),
+                Visibility(
+                  visible: vis,
+                  child: Container(
+                    padding: EdgeInsets.fromLTRB(flexible(context, 20.0), 0.0, flexible(context, 20.0), 0.0),
+                    width: flexible(context, 200.0),
+                    decoration: BoxDecoration(
+                      color: Colors.red[900],
+                      borderRadius: BorderRadius.circular(flexible(context, 40.0)),
+                    ),
+                    child: FlatButton(
+                      onPressed: (){
+                        setState(() {
+                          vis=false;
+                        });
+                        FirebaseAuth.instance.signInWithEmailAndPassword(email: _email, password: _password)
+                            .then((FutureOr user){
+                          Navigator.of(context).pushReplacementNamed('/feedpage');
+                        })
+                            .catchError((e){
+                          print(e);
+                        });
+                      },
+                      child: Text('Login',style: TextStyle(color: Colors.white,fontWeight: FontWeight.bold,fontSize: 16.0),),
+                    ),
 
+                  ),
                 ),
                 SizedBox(height: flexible(context, 20),),
                 Row(

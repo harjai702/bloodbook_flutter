@@ -6,6 +6,8 @@ import 'package:geoflutterfire/geoflutterfire.dart';
 import 'package:location/location.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 class PostPage extends StatefulWidget {
+  String username;
+  PostPage({this.username});
   @override
   _MyPostPageState createState() => new _MyPostPageState();
 }
@@ -26,7 +28,7 @@ class _MyPostPageState extends State<PostPage> with SingleTickerProviderStateMix
     });
     FirebaseFirestore.instance.collection('/postdata').add({
       'usrid':FirebaseAuth.instance.currentUser.uid,
-      'name':name,
+      'name':widget.username,
       'bgroup': bgroup,
       'address1':address,
       'address2':address2,
@@ -43,6 +45,10 @@ class _MyPostPageState extends State<PostPage> with SingleTickerProviderStateMix
   void initState(){
     super.initState();
     getLocation();
+    getvalue();
+  }
+  void getvalue() async{
+
   }
   void getLocation() async{
     Location location=new Location();
@@ -58,29 +64,11 @@ class _MyPostPageState extends State<PostPage> with SingleTickerProviderStateMix
             children: <Widget>[
               SizedBox(height: 40.0,),
               Visibility(
-                visible: vis,
+                visible: true,
                 child:Column(
                   children: <Widget>[
                     Text('Info',style: TextStyle(fontWeight: FontWeight.bold,fontSize: 20.0),),
-                    TextField(
-                      decoration:InputDecoration(
-                        labelText: 'Full Name',
-                        labelStyle: TextStyle(
-                            fontSize: 18.0,
-                            fontFamily:'Montserrat',
-                            fontWeight:FontWeight.bold,
-                            color:Colors.grey
-                        ),
-                        focusedBorder:UnderlineInputBorder(
-                          borderSide:BorderSide(color:Colors.black),
-                        ),
-                      ),
-                      onChanged: (value){
-                        setState(() {
-                          name=value;
-                        });
-                      },
-                    ),//name
+                    Text('Username: '+widget.username.toString()),
                     TextField(
                       decoration:InputDecoration(
                         labelText: 'Contact number',
@@ -199,30 +187,43 @@ class _MyPostPageState extends State<PostPage> with SingleTickerProviderStateMix
                       },
                     ),//address4
                     SizedBox(height: 20.0,),
-                    Container(
-                      padding: EdgeInsets.fromLTRB( 20.0, 0.0, 20.0, 0.0),
-                      width:  200.0,
-                      decoration: BoxDecoration(
-                        color: Colors.red[900],
-                        borderRadius: BorderRadius.circular(40.0),
+                    Visibility(
+                      visible: vis,
+                      child: Container(
+                        padding: EdgeInsets.fromLTRB( 20.0, 0.0, 20.0, 0.0),
+                        width:  200.0,
+                        decoration: BoxDecoration(
+                          color: Colors.red[900],
+                          borderRadius: BorderRadius.circular(40.0),
+                        ),
+                        child: FlatButton(
+                          onPressed: (){
+                            addpost();
+                          },
+                          child: Text('Post',style: TextStyle(color: Colors.white,fontWeight: FontWeight.bold,fontSize: 16.0),),
+                        ),
                       ),
-                      child: FlatButton(
-                        onPressed: (){
-                          addpost();
-                        },
-                        child: Text('Post',style: TextStyle(color: Colors.white,fontWeight: FontWeight.bold,fontSize: 16.0),),
+                    ),
+                    Visibility(
+                      visible: !vis,
+                      child: Container(
+                        padding: EdgeInsets.fromLTRB( 20.0, 0.0, 20.0, 0.0),
+                        width:  200.0,
+                        decoration: BoxDecoration(
+                          color: Colors.red[900],
+                          borderRadius: BorderRadius.circular(40.0),
+                        ),
+                        child: FlatButton(
+                          onPressed: (){
+                            //addpost();
+                          },
+                          child: new CircularProgressIndicator(backgroundColor: Colors.white,valueColor: new AlwaysStoppedAnimation<Color>(Colors.red[900])
+                          ),
+                        ),
                       ),
                     ),
                   ],
                 ),
-              ),
-              Visibility(
-                visible: !vis,
-                child:Center(
-                  child: SpinKitDoubleBounce(
-                    color:Colors.grey,
-                    size:100.0,
-                  ),),
               ),
             ],
           ),

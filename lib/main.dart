@@ -23,6 +23,7 @@ class MyApp extends StatelessWidget {
             debugShowCheckedModeBanner: false,
             routes: <String, WidgetBuilder>{
               '/signup': (BuildContext context) => new SignupPage(),
+              '/login': (BuildContext context) => new LoginPage(),
               '/phnsign': (BuildContext context) => new PhnSign(),
               '/feedpage': (BuildContext context) => new Feed2Page(),
               '/postpage': (BuildContext context) => new PostPage(),
