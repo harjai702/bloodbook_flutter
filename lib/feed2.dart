@@ -17,6 +17,7 @@ class Feed2Page extends StatefulWidget {
 class _Feed2PageState extends State<Feed2Page> with SingleTickerProviderStateMixin {
   var uuid;
   String username;
+  String phnnumber;
   Stream<List<DocumentSnapshot>> stream;
   final geo = Geoflutterfire();
   List<GeoLocationInfo> listOfUser= new List<GeoLocationInfo>();
@@ -36,7 +37,6 @@ class _Feed2PageState extends State<Feed2Page> with SingleTickerProviderStateMix
       element.docs.forEach((element) {
         setState(() {
           selectedDoc=element.id;
-          username=element.data()['displayName'];
         });
       });
     });
@@ -47,6 +47,7 @@ class _Feed2PageState extends State<Feed2Page> with SingleTickerProviderStateMix
       element.docs.forEach((element) {
         setState(() {
           username=element.data()['displayName'];
+          phnnumber=element.data()['phonenumber'];
         });
       });
     });
@@ -82,7 +83,7 @@ class _Feed2PageState extends State<Feed2Page> with SingleTickerProviderStateMix
       setState(() {
         listOfUser=listOfUser;
         vis=true;
-        listOfUser.sort((a, b) => a.address1.compareTo(b.address1));
+        listOfUser.sort((a, b) => b.date.compareTo(a.date));
         //listOfUser.sort();
       });
     });
@@ -97,6 +98,7 @@ class _Feed2PageState extends State<Feed2Page> with SingleTickerProviderStateMix
           child:Column(
             children: <Widget>[
               SizedBox(height: 40.0,),
+              Text("Username: "+username.toString()),
               Center(
                 child: Container(
                   child:Text('Hello World'),
@@ -107,7 +109,7 @@ class _Feed2PageState extends State<Feed2Page> with SingleTickerProviderStateMix
                 onPressed: (){
                   FirebaseAuth.instance.signOut();
                   //Navigator.of(context).pushNamed('/login');
-                  Navigator.pop(context);
+                  //Navigator.pop(context);
                 },
                 child: Text('Logout!',style: TextStyle(fontWeight: FontWeight.bold,color: Colors.red),),
               ),  
@@ -123,6 +125,7 @@ class _Feed2PageState extends State<Feed2Page> with SingleTickerProviderStateMix
                       MaterialPageRoute(
                           builder: (context) => PostPage(
                             username: username,
+                            phnnumber:phnnumber,
                           )),
                     );
                   },
@@ -154,11 +157,14 @@ class _Feed2PageState extends State<Feed2Page> with SingleTickerProviderStateMix
                   bgroup: listOfUser[i].bgroup,
                   userId: listOfUser[i].usrid,
                   adress: address,
+                  date: listOfUser[i].date,
                   //adress: (listOfUser[i].address1.to+","+listOfUser[i].address2+","+listOfUser[i].address3+","+listOfUser[i].address4).toString(),
                 );
               },
             );
     }
+    else if(listOfUser==null){
+      return Text("No Requests");}
     else{
       return Scaffold(
         body: Center(

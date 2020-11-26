@@ -9,6 +9,7 @@ class GeoLocationInfo {
   String bgroup;
   String city;
   String state;
+  String date;
 
 
   GeoLocationInfo({
@@ -19,7 +20,8 @@ class GeoLocationInfo {
     this.name,
     this.address1,
     this.city,
-    this.state
+    this.state,
+    this.date
   });
 
   GeoLocationInfo.fromJson(Map<String, dynamic> json) {
@@ -33,6 +35,7 @@ class GeoLocationInfo {
     city=json['city'];
     state=json['state'];
     bgroup=json['bgroup'];
+    date=json['date'];
   }
 
   Map<String, dynamic> toJson() {
@@ -47,6 +50,7 @@ class GeoLocationInfo {
     data['bgroup']=this.bgroup;
     data['city']=this.city;
     data['state']=this.state;
+    data['date']=this.date;
     return data;
   }
 }

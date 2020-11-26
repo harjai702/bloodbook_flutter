@@ -4,10 +4,12 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:geoflutterfire/geoflutterfire.dart';
 import 'package:location/location.dart';
+import 'package:intl/intl.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 class PostPage extends StatefulWidget {
   String username;
-  PostPage({this.username});
+  String phnnumber;
+  PostPage({this.username,this.phnnumber});
   @override
   _MyPostPageState createState() => new _MyPostPageState();
 }
@@ -22,6 +24,9 @@ class _MyPostPageState extends State<PostPage> with SingleTickerProviderStateMix
   String city;
   String state;
   bool vis=true;
+  bool vis2=false;
+  bool vis3=false;
+  String date;
   void addpost(){
     setState(() {
       vis=false;
@@ -34,9 +39,19 @@ class _MyPostPageState extends State<PostPage> with SingleTickerProviderStateMix
       'address2':address2,
       'city':city,
       'state':state,
-      'position':loc.data
+      'position':loc.data,
+      'date':date
     }).then((value){
-      Navigator.pop(context);
+      setState(() {
+      vis=true;
+      vis2=true;
+      });
+      Future.delayed(const Duration(milliseconds: 3000), () {
+        setState(() {
+          vis2=false;
+        });
+      });
+      //Navigator.pop(context);
     }).catchError((e){
       print(e);
     });
@@ -44,11 +59,10 @@ class _MyPostPageState extends State<PostPage> with SingleTickerProviderStateMix
   @override
   void initState(){
     super.initState();
+    final DateTime now = DateTime. now();
+    //final DateFormat formatter = DateFormat('yyyy-MM-dd');
+    date=now.toString();
     getLocation();
-    getvalue();
-  }
-  void getvalue() async{
-
   }
   void getLocation() async{
     Location location=new Location();
@@ -69,7 +83,8 @@ class _MyPostPageState extends State<PostPage> with SingleTickerProviderStateMix
                   children: <Widget>[
                     Text('Info',style: TextStyle(fontWeight: FontWeight.bold,fontSize: 20.0),),
                     Text('Username: '+widget.username.toString()),
-                    TextField(
+                    TextFormField(
+                      initialValue: widget.phnnumber.toString(),
                       decoration:InputDecoration(
                         labelText: 'Contact number',
                         labelStyle: TextStyle(
@@ -88,7 +103,7 @@ class _MyPostPageState extends State<PostPage> with SingleTickerProviderStateMix
                         });
                       },
                     ), //phn number
-                    TextField(
+                    TextFormField(
                       decoration:InputDecoration(
                         labelText: 'Blood Group Needed',
                         labelStyle: TextStyle(
@@ -185,8 +200,16 @@ class _MyPostPageState extends State<PostPage> with SingleTickerProviderStateMix
                           state=value;
                         });
                       },
-                    ),//address4
+                    ), //address4
                     SizedBox(height: 20.0,),
+                    Visibility(
+                      visible: vis2,
+                      child:Text('Posted Successfully',style: TextStyle(fontWeight: FontWeight.bold,color: Colors.green),),
+                    ),
+                    Visibility(
+                      visible: vis3,
+                      child:Text('Please fill all the required fields',style: TextStyle(fontWeight: FontWeight.bold,color: Colors.red),),
+                    ),
                     Visibility(
                       visible: vis,
                       child: Container(
@@ -198,7 +221,16 @@ class _MyPostPageState extends State<PostPage> with SingleTickerProviderStateMix
                         ),
                         child: FlatButton(
                           onPressed: (){
-                            addpost();
+                            if(phnnumber==null||bgroup==null||address==null||address2==null||city==null||state==null){
+                              setState(() {
+                               vis3=true;
+                              });
+                              Future.delayed(const Duration(milliseconds: 3000), () {
+                                setState(() {
+                                  vis3=false;
+                                });
+                              });
+                            }else{addpost();}
                           },
                           child: Text('Post',style: TextStyle(color: Colors.white,fontWeight: FontWeight.bold,fontSize: 16.0),),
                         ),

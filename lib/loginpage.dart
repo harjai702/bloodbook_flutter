@@ -11,7 +11,7 @@ class LoginPage extends StatefulWidget {
   _MyLoginPageState createState() => new _MyLoginPageState();
 }
 class _MyLoginPageState extends State<LoginPage> with SingleTickerProviderStateMixin{
-  String _email="harsh12@gmail.com";
+  String _email="har123@gmail.com";
   String _password="harjai702";
   String uuid="helloharsh";
   double latitude=30.055126;

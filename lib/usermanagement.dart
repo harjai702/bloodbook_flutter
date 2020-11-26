@@ -4,12 +4,16 @@ import 'package:geoflutterfire/geoflutterfire.dart';
 class UserManagement{
   final geo = Geoflutterfire();
   GeoFirePoint loc;
-  storeNewUser(user,context,dispname,center){
+  storeNewUser(user,context,dispname,center,age,gender,phnnumber,bgroup){
     loc=center;
     FirebaseFirestore.instance.collection('/users').add({
       'email':user.email,
       'uid':user.uid,
       'displayName': dispname,
+      'age':age,
+      'gender':gender,
+      'phonenumber':phnnumber,
+      'bgroup':bgroup,
     }).then((value){
       //
     }).catchError((e){
