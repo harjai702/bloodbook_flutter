@@ -27,9 +27,9 @@ class _Feed2PageState extends State<Feed2Page> with SingleTickerProviderStateMix
   void initState(){
     super.initState();
     uuid=FirebaseAuth.instance.currentUser.uid;
-    getvalue(uuid);
-    getusername(uuid);
-    updateposition();
+    getvalue(uuid);//gets the document id of users location to update the locstion
+    getusername(uuid);//get the user information
+    updateposition();//update the position and gets the radius posts
   }
   void getvalue(String uuid) async{
     var exp=await FirebaseFirestore.instance.collection('locations').where('usrid',isEqualTo: uuid).snapshots();
