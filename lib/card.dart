@@ -13,11 +13,11 @@ class _CardUiState extends State<CardUi> {
     return Container(
       child: Column(
         children: [
-          Text(widget.name.toString()),
-          Text(widget.bgroup.toString()),
-          Text(widget.adress.toString()),
-          Text(widget.userId.toString()),
-          Text(widget.date.toString()),
+           Text(widget.name.toString()),
+           Text(widget.bgroup.toString()),
+           Text(widget.adress.toString()),
+           Text(widget.userId.toString()),
+           Text(widget.date.toString()),
 
         ],
       ),
