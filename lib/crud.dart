@@ -22,7 +22,7 @@ class crudMethods{
     else{
       print('You need to be logged in first');
     }
-  }
+  }//hello
   getData() async{
     return await FirebaseFirestore.instance.collection('postData').snapshots();
   }
