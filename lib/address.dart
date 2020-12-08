@@ -14,8 +14,6 @@ class Address{
       List<Placemark> p = await placemarkFromCoordinates(latitude, longitude);
       Placemark place = p[0];
       currentAddress="${place.locality}, ${place.postalCode}, ${place.country}, ${place.administrativeArea}";
-      //print(currentAddress);
-      //return currentAddress;
     } catch (e) {
       print(e);
     }
