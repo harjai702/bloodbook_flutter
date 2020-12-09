@@ -11,9 +11,11 @@ dependencies:
   cloud_firestore:
   geoflutterfire:
   firebase_core:
+  simple_animations:
   firebase_messaging:
   firebase_storage:
   image_picker:
+  flutter_custom_clippers:
   flexible: ^0.1.4
   geolocator: ^6.0.0+4
   http: ^0.12.2
