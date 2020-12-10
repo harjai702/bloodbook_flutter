@@ -6,19 +6,13 @@ import 'package:firebase_auth/firebase_auth.dart';
 //import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flexible/flexible.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_custom_clippers/flutter_custom_clippers.dart';
 class LoginPage extends StatefulWidget {
   @override
   _MyLoginPageState createState() => new _MyLoginPageState();
 }
 class _MyLoginPageState extends State<LoginPage> with SingleTickerProviderStateMixin{
-  String _email="har123@gmail.com";
-  String _password="harjai702";
-  String uuid="helloharsh";
-  double latitude=30.055126;
-  double longitude=77.259419;
-  bool vis=true;
-  final geo = Geoflutterfire();
-  void adduser() async{
+  /*void adduser() async{
     GeoFirePoint center = geo.point(latitude: latitude, longitude: longitude);
     //GeoPoint g=await new GeoPoint(_location.latitude,_location.longitude);
     //print(g);
@@ -28,165 +22,202 @@ class _MyLoginPageState extends State<LoginPage> with SingleTickerProviderStateM
         .catchError((e){
       print(e);
     });
-  }
-  @override
-  Widget build(BuildContext context) {
-    return new Scaffold(
-      backgroundColor: Colors.white,
-      body:SingleChildScrollView(child:Column(
-        children: <Widget>[
-          SizedBox(height: flexible(context, 37.0),),
-          Text('Login Here..',
-          style: TextStyle(
-            fontWeight: FontWeight.bold,
-            color: Colors.grey[600],
-            fontSize: 40.0
-          ),
-          ),
-          Container(
-           padding: EdgeInsets.fromLTRB(flexible(context, 20.0), flexible(context, 0.0), flexible(context, 20.0), flexible(context, 74.0)),
-            child: Column(
-              children: <Widget>[
-                SizedBox(height: flexible(context, 50.0,),),
-                TextField(
-                  decoration:InputDecoration(
-                    labelText: 'EMAIL',
-                    labelStyle: TextStyle(
-                        fontSize: 22.0,
-                        fontFamily:'Montserrat',
-                        fontWeight:FontWeight.bold,
-                        color:Colors.grey
-                    ),
-                    focusedBorder:UnderlineInputBorder(
-                      borderSide:BorderSide(color:Colors.green),
-                    ),
-                  ),
-                  onChanged: (value){
-                    setState(() {
-                      _email=value;
-                    });
-                  },
-                ),
-                SizedBox(height: flexible(context, 10.0),),
-                TextField(
-                  decoration:InputDecoration(
-                    labelText: 'Password',
-                    labelStyle: TextStyle(
-                        fontFamily:'Montserrat',
-                        fontSize: 22.0,
-                        fontWeight:FontWeight.bold,
-                        color:Colors.grey
-                    ),
-                    focusedBorder:UnderlineInputBorder(
-                      borderSide:BorderSide(color:Colors.green),
-                    ),
-                  ),
-                  onChanged: (value){
-                    setState(() {
-                      _password=value;
-                    });
-                  },
-                  //obscureText:true,
-                ),
-                SizedBox(height: flexible(context, 30.0),),
-                Visibility(
-                  visible: !vis,
+  }*/
+  String _email="har123@gmail.com";
+  String _password="harjai702";
+  String uuid="helloharsh";
+  double latitude=30.055126;
+  double longitude=77.259419;
+  bool vis=true;
+  final geo = Geoflutterfire();
+@override
+Widget build(BuildContext context) {
+  return Scaffold(
+    backgroundColor: Colors.white,
+    body: SingleChildScrollView(
+      child: Container(
+        child: Column(
+          children: <Widget>[
+            Opacity(
+              opacity: 0.7,
+              child: ClipPath(
+                clipper: WaveClipperOne(),
+                child: Opacity(opacity: 0.8,
                   child: Container(
-                    padding: EdgeInsets.fromLTRB( 20.0, 0.0, 20.0, 0.0),
-                    width:  200.0,
+                    height: 400,
                     decoration: BoxDecoration(
-                      color: Colors.red[900],
-                      borderRadius: BorderRadius.circular(40.0),
+                      color: Colors.pinkAccent[100],
                     ),
-                    child: FlatButton(
-                      onPressed: (){
-                        //addpost();
-                      },
-                      child: new CircularProgressIndicator(backgroundColor: Colors.white,valueColor: new AlwaysStoppedAnimation<Color>(Colors.red[900]),
-                      ),
+                    child: Stack(
+                      children: <Widget>[
+                        Positioned(
+                          left: 30,
+                          width: 80,
+                          height: 200,
+                          child:  Container(
+                            decoration: BoxDecoration(
+                                image: DecorationImage(
+                                    image: AssetImage('assets/images/light-1.png')
+                                )
+                            ),
+                          ),),
+                        Positioned(
+                            left: 140,
+                            width: 80,
+                            height: 150,
+                            child: Container(
+                              decoration: BoxDecoration(
+                                  image: DecorationImage(
+                                      image: AssetImage('assets/images/light-2.png')
+                                  )
+                              ),
+                            )),
+                        Positioned(
+                            right: 40,
+                            top: 40,
+                            width: 80,
+                            height: 150,
+                            child:  Container(
+                              decoration: BoxDecoration(
+                                  image: DecorationImage(
+                                      image: AssetImage('assets/images/clock.png')
+                                  )
+                              ),
+                            )),
+                        Positioned(
+                          top: 240.0,
+                          left:30.0,
+                          child: Text('BloodBook',style: TextStyle(fontStyle: FontStyle.italic,fontWeight: FontWeight.bold,fontSize: 40.0),),
+                        ),
+                        Positioned(
+                          top: 300.0,
+                          left:30.0,
+                          child: Text('Login Here...',style: TextStyle(fontStyle: FontStyle.italic,fontSize: 30.0),),
+                        ),
+                      ],
                     ),
                   ),
                 ),
-                Visibility(
-                  visible: vis,
-                  child: Container(
-                    padding: EdgeInsets.fromLTRB(flexible(context, 20.0), 0.0, flexible(context, 20.0), 0.0),
-                    width: flexible(context, 200.0),
-                    decoration: BoxDecoration(
-                      color: Colors.red[900],
-                      borderRadius: BorderRadius.circular(flexible(context, 40.0)),
-                    ),
-                    child: FlatButton(
-                      onPressed: (){
-                        setState(() {
-                          vis=false;
-                        });
-                        FirebaseAuth.instance.signInWithEmailAndPassword(email: _email, password: _password)
-                            .then((FutureOr user){
-                          Navigator.of(context).pushReplacementNamed('/feedpage');
-                        })
-                            .catchError((e){
-                          print(e);
-                        });
-                      },
-                      child: Text('Login',style: TextStyle(color: Colors.white,fontWeight: FontWeight.bold,fontSize: 16.0),),
-                    ),
-
-                  ),
+              ),
+            ),
+            Padding(
+              padding:EdgeInsets.all(30.0),
+              child:Container(
+                decoration: BoxDecoration(
+                    color:Colors.white,
+                    borderRadius: BorderRadius.circular(10),
+                    boxShadow: [
+                      BoxShadow(
+                          color: Color.fromRGBO(20, 21, 24, .2),
+                          blurRadius: 20.0,
+                          offset: Offset(0, 10)
+                      )
+                    ]
+                  //#FFECEE
                 ),
-                SizedBox(height: flexible(context, 20),),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
+                child: Column(
                   children: <Widget>[
-                    Text(
-                      'New to Rockit ?',
-                      style: TextStyle(
-                        fontFamily: 'Montserrat',
+                    Container(
+                      padding: EdgeInsets.all(8.0),
+                      decoration: BoxDecoration(
+                          border: Border(bottom: BorderSide(color: Colors.grey[100]))
+                      ),
+                      child: TextField(
+                        decoration: InputDecoration(
+                          border: InputBorder.none,
+                          hintText: "Email",
+                          hintStyle: TextStyle(color:Colors.grey[500]),
+                        ),
+                        onChanged: (value){
+                          setState(() {
+                            _email=value;
+                          });
+                        },
                       ),
                     ),
-                    SizedBox(width: 5.0,),
-                    InkWell(
-                      onTap: (){
-                        Navigator.of(context).pushNamed('/signup');
-                      },
-                      child:Text('Register',
-                        style:TextStyle(
-                          color:Colors.red[900],
-                          fontFamily: 'Montserrat',
-                          fontWeight: FontWeight.bold,
-                          decoration:TextDecoration.underline,
+                    Container(
+                      padding: EdgeInsets.all(8.0),
+                      child: TextField(
+                        decoration: InputDecoration(
+                          border: InputBorder.none,
+                          hintText: "Password",
+                          hintStyle: TextStyle(color:Colors.grey[500]),
                         ),
-                      ),
-                    ),
-                    //SizedBox(width: 20.0,),
-                    InkWell(
-                      onTap: (){
-                        Navigator.of(context).pushNamed('/testpage');
-                      },
-                      child:Text(' testpage',
-                        style:TextStyle(
-                          color:Colors.red[900],
-                          fontFamily: 'Montserrat',
-                          fontWeight: FontWeight.bold,
-                          decoration:TextDecoration.underline,
-                        ),
+                        onChanged: (value){
+                          setState(() {
+                            _password=value;
+                          });
+                        },
+                        obscureText:true,
                       ),
                     ),
                   ],
                 ),
-              ],
+              ),
             ),
-          ),
+            SizedBox(height: 0.0,),
+            Visibility(
+              visible: vis,
+              child: Padding(
+                padding: EdgeInsets.fromLTRB(16, 0, 16, 0),
+                child: FlatButton(
+                  onPressed: (){
+                    setState(() {
+                      vis=false;
+                    });
+                    FirebaseAuth.instance.signInWithEmailAndPassword(email: _email, password: _password)
+                        .then((FutureOr user){
+                      Navigator.of(context).pushReplacementNamed('/feedpage');
+                    })
+                        .catchError((e){
+                      print(e);
+                    });
+                  },
+                  child: Container(
+                    height: 50,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(10),
+                      color: Colors.pinkAccent[100],
+                    ),
+                    child: Center(
+                      child: Text("Login", style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),),
+                    ),
+                  ),
+                ),
+              ),
+            ),
+            Visibility(
+              visible: !vis,
+              child: Padding(
+                padding: EdgeInsets.fromLTRB(16, 0, 16, 0),
+                child: FlatButton(
+                  onPressed: (){
 
-          Container(
-            height: flexible(context, 200.0),
-          width: flexible(context, 500.0),
-          child:Image(
-              image: AssetImage('assets/images/1st.jpg'),
-              fit: BoxFit.fill,
-            ),),
+                  },
+                  child: Container(
+                    height: 50,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(10),
+                      color: Colors.pinkAccent[100],
+                    ),
+                    child: Center(
+                      child: new CircularProgressIndicator(backgroundColor: Colors.white,valueColor: new AlwaysStoppedAnimation<Color>(Colors.pinkAccent[100]),),
+                    ),
+                  ),
+                ),
+              ),
+            ),
+            SizedBox(height: 16.0,),
+            InkWell(
+              onTap: (){
+
+              },
+              child: Text('Forget Password?',style: TextStyle(color: Colors.pinkAccent[100]),),
+            ),
           ],
+        ),
       ),
-    ),);
-  }
+    ),
+  );
+}
 }
