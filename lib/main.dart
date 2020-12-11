@@ -1,3 +1,4 @@
+import 'package:bloodbook/entrypage.dart';
 import 'package:bloodbook/loginpage.dart';
 import 'package:bloodbook/testpage.dart';
 import 'signuppage.dart';
@@ -9,6 +10,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'loginpage.dart';
 import 'phnsignup.dart';
 import 'post.dart';
+import 'entrypage.dart';
 import 'testpage2.dart';
 void main() { runApp(MyApp());
 Firebase.initializeApp();}
@@ -28,7 +30,7 @@ class MyApp extends StatelessWidget {
               '/phnsign': (BuildContext context) => new PhnSign(),
               '/feedpage': (BuildContext context) => new Feed2Page(),
               '/postpage': (BuildContext context) => new PostPage(),
-              '/testpage': (BuildContext context) => new Testpage2(),
+              '/testpage': (BuildContext context) => new FirstPage(),
             }
           );
         },
@@ -48,7 +50,7 @@ class MyHomePage extends StatefulWidget {
         Timer(Duration(seconds: 3),
         ()=>Navigator.pushReplacement(context,
         MaterialPageRoute(builder:
-                (context) => LoginPage()
+                (context) => FirstPage()
             )
         )
     );

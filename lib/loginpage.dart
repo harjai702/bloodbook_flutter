@@ -39,14 +39,14 @@ Widget build(BuildContext context) {
         child: Column(
           children: <Widget>[
             Opacity(
-              opacity: 0.7,
+              opacity: 1.0,
               child: ClipPath(
                 clipper: WaveClipperOne(),
-                child: Opacity(opacity: 0.8,
+                child: Opacity(opacity: 0.7,
                   child: Container(
                     height: 400,
                     decoration: BoxDecoration(
-                      color: Colors.pinkAccent[100],
+                      color: Color(0xFFF6B2C0),
                     ),
                     child: Stack(
                       children: <Widget>[
@@ -173,14 +173,17 @@ Widget build(BuildContext context) {
                       print(e);
                     });
                   },
-                  child: Container(
-                    height: 50,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(10),
-                      color: Colors.pinkAccent[100],
-                    ),
-                    child: Center(
-                      child: Text("Login", style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),),
+                  child: Opacity(
+                    opacity: 1.0,
+                    child: Container(
+                      height: 50,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(10),
+                        color: Color(0xFFF6B2C0),
+                      ),
+                      child: Center(
+                        child: Text("Login", style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),),
+                      ),
                     ),
                   ),
                 ),
@@ -198,21 +201,24 @@ Widget build(BuildContext context) {
                     height: 50,
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(10),
-                      color: Colors.pinkAccent[100],
+                      color: Color(0xFFF6B2C0),
                     ),
                     child: Center(
-                      child: new CircularProgressIndicator(backgroundColor: Colors.white,valueColor: new AlwaysStoppedAnimation<Color>(Colors.pinkAccent[100]),),
+                      child: new CircularProgressIndicator(backgroundColor: Colors.white,valueColor: new AlwaysStoppedAnimation<Color>(Color(0xFFF6B2C0)),),
                     ),
                   ),
                 ),
               ),
             ),
             SizedBox(height: 16.0,),
-            InkWell(
-              onTap: (){
-
-              },
-              child: Text('Forget Password?',style: TextStyle(color: Colors.pinkAccent[100]),),
+            Padding(
+              padding: EdgeInsets.fromLTRB(16, 0, 16, 16),
+              child: InkWell(
+                onTap: (){
+                  Navigator.of(context).pushReplacementNamed('/testpage');
+                },
+                child: Text('Forget Password?',style: TextStyle(color: Color(0xFFF6B2C0)),),
+              ),
             ),
           ],
         ),
