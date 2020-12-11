@@ -32,7 +32,8 @@ class _MyLoginPageState extends State<LoginPage> with SingleTickerProviderStateM
   final geo = Geoflutterfire();
 @override
 Widget build(BuildContext context) {
-  return Scaffold(
+  return SafeArea(
+    child:Scaffold(
     backgroundColor: Colors.white,
     body: SingleChildScrollView(
       child: Container(
@@ -159,30 +160,32 @@ Widget build(BuildContext context) {
             Visibility(
               visible: vis,
               child: Padding(
-                padding: EdgeInsets.fromLTRB(16, 0, 16, 0),
-                child: FlatButton(
-                  onPressed: (){
-                    setState(() {
-                      vis=false;
-                    });
-                    FirebaseAuth.instance.signInWithEmailAndPassword(email: _email, password: _password)
-                        .then((FutureOr user){
-                      Navigator.of(context).pushReplacementNamed('/feedpage');
-                    })
-                        .catchError((e){
-                      print(e);
-                    });
-                  },
-                  child: Opacity(
-                    opacity: 1.0,
-                    child: Container(
-                      height: 50,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(10),
-                        color: Color(0xFFF6B2C0),
-                      ),
-                      child: Center(
-                        child: Text("Login", style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),),
+                padding: EdgeInsets.fromLTRB(30, 0, 30, 0),
+                child: Container(
+                  height: 50,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(10),
+                    color: Color(0xFFF6B2C0),
+                  ),
+                  child:FlatButton(
+                    onPressed: (){
+                      setState(() {
+                        vis=false;
+                      });
+                      FirebaseAuth.instance.signInWithEmailAndPassword(email: _email, password: _password)
+                          .then((FutureOr user){
+                        Navigator.of(context).pushReplacementNamed('/feedpage');
+                      })
+                          .catchError((e){
+                        print(e);
+                      });
+                    },
+                    child: Opacity(
+                      opacity: 1.0,
+                      child: Container(
+                        child: Center(
+                          child: Text("Login", style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),),
+                        ),
                       ),
                     ),
                   ),
@@ -192,19 +195,21 @@ Widget build(BuildContext context) {
             Visibility(
               visible: !vis,
               child: Padding(
-                padding: EdgeInsets.fromLTRB(16, 0, 16, 0),
-                child: FlatButton(
-                  onPressed: (){
+                padding: EdgeInsets.fromLTRB(30, 0, 30, 0),
+                child: Container(
+                  height: 50,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(10),
+                    color: Color(0xFFF6B2C0),
+                  ),
+                  child:FlatButton(
+                    onPressed: (){
 
-                  },
-                  child: Container(
-                    height: 50,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(10),
-                      color: Color(0xFFF6B2C0),
-                    ),
-                    child: Center(
-                      child: new CircularProgressIndicator(backgroundColor: Colors.white,valueColor: new AlwaysStoppedAnimation<Color>(Color(0xFFF6B2C0)),),
+                    },
+                    child: Container(
+                      child: Center(
+                        child: new CircularProgressIndicator(backgroundColor: Colors.white,valueColor: new AlwaysStoppedAnimation<Color>(Color(0xFFF6B2C0)),),
+                      ),
                     ),
                   ),
                 ),
@@ -224,6 +229,6 @@ Widget build(BuildContext context) {
         ),
       ),
     ),
-  );
+  ),);
 }
 }

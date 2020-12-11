@@ -41,7 +41,8 @@ class _MySignupPageState extends State<SignupPage> with SingleTickerProviderStat
   }
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return SafeArea(
+      child:Scaffold(
       body:SingleChildScrollView(
         child:Column(
           children: <Widget>[
@@ -270,84 +271,90 @@ class _MySignupPageState extends State<SignupPage> with SingleTickerProviderStat
             Visibility(
               visible: vis,
               child: Padding(
-                padding: EdgeInsets.fromLTRB(16, 0, 16, 0),
-                child: FlatButton(
-                  onPressed: (){
-                    if(_name==null||_email==null||_password==null||bgroup==null||phnnumber==null||age==null||gender==null){
-                      setState(() {
-                        vis3=true;
-                      });
-                      Future.delayed(const Duration(milliseconds: 3000), () {
+                padding: EdgeInsets.fromLTRB(30, 0, 30, 0),
+                child: Container(
+                  height: 50,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(10),
+                    color: Color(0xFFE7AEBF),
+                  ),
+                  child: FlatButton(
+                    onPressed: (){
+                      if(_name==null||_email==null||_password==null||bgroup==null||phnnumber==null||age==null||gender==null){
                         setState(() {
-                          vis3=false;
+                          vis3=true;
                         });
-                      });
-                    }
-                    else{
-                      setState(() {
-                        vis=false;
-                      });
-                      FirebaseAuth.instance.createUserWithEmailAndPassword(
-                          email: _email,
-                          password: _password
-                      ).then((signedInUser){
-                        UserManagement().storeNewUser(signedInUser.user,context,_name,loc,age,gender,phnnumber,bgroup);
-                        Navigator.of(context).pushNamed('/feedpage');
-                      })
-                          .catchError((e){
-                        print(e);
-                      });
-                    }
-                  },
-                  child: Opacity(
-                    opacity: 1.0,
-                    child: Container(
-                      height: 50,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(10),
-                        color: Color(0xFFE7AEBF),
-                      ),
-                      child: Center(
-                        child: Text("Create Account", style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),),
+                        Future.delayed(const Duration(milliseconds: 3000), () {
+                          setState(() {
+                            vis3=false;
+                          });
+                        });
+                      }
+                      else{
+                        setState(() {
+                          vis=false;
+                        });
+                        FirebaseAuth.instance.createUserWithEmailAndPassword(
+                            email: _email,
+                            password: _password
+                        ).then((signedInUser){
+                          UserManagement().storeNewUser(signedInUser.user,context,_name,loc,age,gender,phnnumber,bgroup);
+                          Navigator.of(context).pushNamed('/feedpage');
+                        })
+                            .catchError((e){
+                          print(e);
+                        });
+                      }
+                    },
+                    child: Opacity(
+                      opacity: 1.0,
+                      child: Container(
+                        child: Center(
+                          child: Text("Create Account", style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),),
+                        ),
                       ),
                     ),
                   ),
                 ),
               ),
             ), //signup button
-            FlatButton(
-              onPressed: (){
-                Navigator.pop(context);
-              },
-              child:Padding(
-                padding:EdgeInsets.fromLTRB(16, 13, 16, 20),
+            Padding(
+              padding: EdgeInsets.fromLTRB(30, 12, 30, 0),
+              child: Container(
+                height: 50,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(10),
+                  border: Border.all(color: Color(0xFFF6B2C0)),
+                  color: Colors.white,
+                ),
+                child:FlatButton(
+                  onPressed: (){
+                    Navigator.pop(context);
+                  },
+                    child: Container(
+                      child: Center(child: Text("Back to Home Page",style: TextStyle(fontSize: 17.0,color:Color(0xFFF6B2C0),),)),
+                    ),
+                  ),
+                ),//back button
+              ),
+            Visibility(
+              visible:!vis,
+              child: Padding(
+                padding: EdgeInsets.fromLTRB(30, 0, 30, 0),
                 child: Container(
                   height: 50,
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(10),
-                    border: Border.all(color: Color(0xFFF6B2C0)),
-                    color: Colors.white,
+                    color: Color(0xFFE7AEBF),
                   ),
-                  child: Center(child: Text("Back to Home Page",style: TextStyle(fontSize: 17.0,color:Color(0xFFF6B2C0),),)),
-                ),
-              ),
-            ),//back button
-            Visibility(
-              visible: !vis,
-              child: Padding(
-                padding: EdgeInsets.fromLTRB(16, 0, 16, 0),
-                child: FlatButton(
-                  onPressed: (){
+                  child: FlatButton(
+                    onPressed: (){
 
-                  },
-                  child: Container(
-                    height: 50,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(10),
-                      color: Color(0xFFE7AEBF),
-                    ),
-                    child: Center(
-                      child: new CircularProgressIndicator(backgroundColor: Colors.white,valueColor: new AlwaysStoppedAnimation<Color>(Color(0xFFE7AEBF)),),
+                    },
+                    child: Container(
+                      child: Center(
+                        child: new CircularProgressIndicator(backgroundColor: Colors.white,valueColor: new AlwaysStoppedAnimation<Color>(Color(0xFFE7AEBF)),),
+                      ),
                     ),
                   ),
                 ),
@@ -356,6 +363,6 @@ class _MySignupPageState extends State<SignupPage> with SingleTickerProviderStat
             SizedBox(height: 20.0,),
           ],
         ),
-      ),);
+      ),),);
   }
 }

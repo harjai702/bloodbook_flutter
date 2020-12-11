@@ -30,7 +30,7 @@ class MyApp extends StatelessWidget {
               '/phnsign': (BuildContext context) => new PhnSign(),
               '/feedpage': (BuildContext context) => new Feed2Page(),
               '/postpage': (BuildContext context) => new PostPage(),
-              '/testpage': (BuildContext context) => new FirstPage(),
+              '/testpage': (BuildContext context) => new Testpage2(),
             }
           );
         },

@@ -13,36 +13,40 @@ class _FirstPageState extends State<FirstPage> {
           SizedBox(height: 270.0,),
           Center(child: Text("BLOODBOOK",style: TextStyle(fontWeight: FontWeight.bold,fontSize: 30.0,color: Color(0xFFE7AEBF)),)),
           Text("A life Giving App",style: TextStyle(fontFamily: "Pacifico",fontSize: 20.0,color: Color(0xFFF6B2C0)),),
-          FlatButton(
-            onPressed: (){
-              Navigator.of(context).pushNamed('/login');
-            },
-            child:Padding(
-              padding:EdgeInsets.fromLTRB(16, 20, 16, 20),
-              child: Container(
-                height: 50,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(30),
-                  color: Color(0xFFF6B2C0),
+          Padding(
+            padding: EdgeInsets.fromLTRB(30, 20, 30, 20),
+            child: Container(
+              height: 50,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(30),
+                color: Color(0xFFF6B2C0),
+              ),
+              child: FlatButton(
+                onPressed: (){
+                  Navigator.of(context).pushNamed('/login');
+                },
+                child: Container(
+                  child: Center(child: Text("Existing User/Login",style: TextStyle(fontSize: 17.0,color: Colors.white,),)),
                 ),
-                child: Center(child: Text("Existing User/Login",style: TextStyle(fontSize: 17.0,color: Colors.white,),)),
               ),
             ),
           ),
-          FlatButton(
-            onPressed: (){
-              Navigator.of(context).pushNamed('/signup');
-            },
-            child:Padding(
-              padding:EdgeInsets.fromLTRB(16, 0, 16, 20),
-              child: Container(
-                height: 50,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(30),
-                  border: Border.all(color: Color(0xFFF6B2C0)),
-                  color: Colors.white,
+          Padding(
+            padding: EdgeInsets.fromLTRB(30, 0, 30, 20),
+            child: Container(
+              height: 50,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(30),
+                border: Border.all(color: Color(0xFFF6B2C0)),
+                color: Colors.white,
+              ),
+              child: FlatButton(
+                onPressed: (){
+                  Navigator.of(context).pushNamed('/signup');
+                },
+                child: Container(
+                  child: Center(child: Text("New User/Signup",style: TextStyle(fontSize: 17.0,color:Color(0xFFF6B2C0),),)),
                 ),
-                child: Center(child: Text("New User/Signup",style: TextStyle(fontSize: 17.0,color:Color(0xFFF6B2C0),),)),
               ),
             ),
           ),
