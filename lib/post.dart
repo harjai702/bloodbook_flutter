@@ -40,7 +40,8 @@ class _MyPostPageState extends State<PostPage> with SingleTickerProviderStateMix
       'city':city,
       'state':state,
       'position':loc.data,
-      'date':date
+      'date':date,
+      'phnnumber':phnnumber
     }).then((value){
       setState(() {
       vis=true;

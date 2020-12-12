@@ -56,7 +56,7 @@ class _Feed2PageState extends State<Feed2Page> with SingleTickerProviderStateMix
     Location location=new Location();
     LocationData _location;
     _location = await location.getLocation();
-   // print(selectedDoc+_location.toString());
+    // print(selectedDoc+_location.toString());
     //GeoFirePoint geoFirePoint = geo.point(latitude: 30.0575475, longitude: 77.2820764);
     GeoFirePoint center = geo.point(latitude: _location.latitude, longitude: _location.longitude);
     //GeoPoint g=await new GeoPoint(_location.latitude,_location.longitude);
@@ -93,75 +93,98 @@ class _Feed2PageState extends State<Feed2Page> with SingleTickerProviderStateMix
   }
   @override
   Widget build(BuildContext context) {
-    return new Scaffold(
-        body: SingleChildScrollView(
-          child:Column(
-            children: <Widget>[
-              SizedBox(height: 40.0,),
-              Text("Username: "+username.toString()),
-              Center(
-                child: Container(
-                  child:Text('Hello World'),
+    return SafeArea(
+      child: Scaffold(
+          appBar: new AppBar(
+            automaticallyImplyLeading: false,
+            backgroundColor: Colors.white,
+            elevation: 0.0,
+            title: Center(child: Text("          BloodBook",style: TextStyle(color:Color(0xFFF6B2C0),fontFamily: "Pacifico",fontSize: 30.0),)),
+            actions: <Widget>[
+              IconButton(
+                icon: Icon(
+                  Icons.dehaze,
+                  color: Color(0xFFF6B2C0),
                 ),
-              ),
-              Container(
-              child: FlatButton(
-                onPressed: (){
-                  FirebaseAuth.instance.signOut();
-                  //Navigator.of(context).pushNamed('/login');
-                  //Navigator.pop(context);
+                onPressed: () {
+                  // do something
                 },
-                child: Text('Logout!',style: TextStyle(fontWeight: FontWeight.bold,color: Colors.red),),
-              ),  
               ),
-              SizedBox(height: 20.0,),
-              Container(
-                padding: EdgeInsets.fromLTRB(250.0, 0.0, 0.0, 0.0),
-                child:FloatingActionButton(
-                  onPressed: (){
-                    listOfUser.clear();
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => PostPage(
-                            username: username,
-                            phnnumber:phnnumber,
-                          )),
-                    );
-                  },
-                  elevation: 0.0,
-                  backgroundColor: Colors.lightGreen,
-                  child: Icon(Icons.add),
-                ),
-              ),
-              SizedBox(height: 20.0,),
-              Container(
-                height: 400.0,
-                width: 400.0,
-                child: _postList(),
-              ),
+              SizedBox(width: 10.0,),
             ],
           ),
-        )
-    );
+          backgroundColor: Colors.white,
+          body: SingleChildScrollView(
+            child: Column(
+              children: <Widget>[
+                SizedBox(height: 10.0,),
+                Row(
+                  children: <Widget>[
+                    FlatButton(
+                      onPressed: (){
+                        listOfUser.clear();
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => PostPage(
+                                username: username,
+                                phnnumber:phnnumber,
+                              )),
+                        );
+                      },
+                      child: Container(
+                        height: 40,
+                        width: 180,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(20),
+                          border: Border.all(color: Color(0xFFF6B2C0)),
+                        ),
+                        child: Center(child: Text("Push a Request",style: TextStyle(
+                            color: Colors.grey,
+                            fontSize: 15.0
+                        ),)),
+                      ),
+                    ),
+                    Column(
+                      //mainAxisAlignment: MainAxisAlignment.end,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: <Widget>[
+                        Text('Location: ',style: TextStyle(color: Colors.grey,fontWeight: FontWeight.bold),),
+                        Text("Naharpur,135001,",style: TextStyle(color: Colors.grey),),
+                        //Text('135001,',style: TextStyle(color: Colors.grey),),
+                        Text('Haryana',style: TextStyle(color: Colors.grey),),
+                      ],
+                    ),
+                  ],
+                ),
+                Container(
+                  height: 560,
+                  width: 400.0,
+                  child: _postList(),
+                ),
+              ],
+            ),
+          )
+      ),);
   }
   Widget _postList(){
     if(vis){
       return ListView.builder(
-              itemCount: listOfUser.length,
-              //padding: EdgeInsets.all(5.0),
-              itemBuilder: (context,i){
-                String address=listOfUser[i].address1.toString()+","+listOfUser[i].address2.toString()+","+listOfUser[i].city.toString()+","+listOfUser[i].state.toString();
-                return new CardUi(
-                  name: listOfUser[i].name,
-                  bgroup: listOfUser[i].bgroup,
-                  userId: listOfUser[i].usrid,
-                  adress: address,
-                  date: listOfUser[i].date,
-                  //adress: (listOfUser[i].address1.to+","+listOfUser[i].address2+","+listOfUser[i].address3+","+listOfUser[i].address4).toString(),
-                );
-              },
-            );
+        itemCount: listOfUser.length,
+        //padding: EdgeInsets.all(5.0),
+        itemBuilder: (context,i){
+          String address=listOfUser[i].address1.toString()+","+listOfUser[i].address2.toString()+","+listOfUser[i].city.toString()+","+listOfUser[i].state.toString();
+          return new CardUi(
+            name: listOfUser[i].name,
+            bgroup: listOfUser[i].bgroup,
+            userId: listOfUser[i].usrid,
+            adress: address,
+            date: listOfUser[i].date,
+            phnnumber:listOfUser[i].phnnumber,
+            //adress: (listOfUser[i].address1.to+","+listOfUser[i].address2+","+listOfUser[i].address3+","+listOfUser[i].address4).toString(),
+          );
+        },
+      );
     }
     else if(listOfUser==null){
       return Text("No Requests");}

@@ -10,7 +10,7 @@ class GeoLocationInfo {
   String city;
   String state;
   String date;
-
+  String phnnumber;
 
   GeoLocationInfo({
     this.usrid,
@@ -21,7 +21,8 @@ class GeoLocationInfo {
     this.address1,
     this.city,
     this.state,
-    this.date
+    this.date,
+    this.phnnumber
   });
 
   GeoLocationInfo.fromJson(Map<String, dynamic> json) {
@@ -30,6 +31,7 @@ class GeoLocationInfo {
         ? new Position.fromJson(json['position'])
         : null;
     name=json['name'];
+    phnnumber=json['phnnumber'];
     address2=json['address2'];
     address1=json['address1'];
     city=json['city'];
@@ -45,6 +47,7 @@ class GeoLocationInfo {
       data['position'] = this.position.toJson();
     }
     data['name']=this.name;
+    data['phnnumber']=this.phnnumber;
     data['address1']=this.address1;
     data['address2']=this.address2;
     data['bgroup']=this.bgroup;
