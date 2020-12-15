@@ -1,9 +1,13 @@
 import 'package:bloodbook/card.dart';
+import 'package:bloodbook/entrypage.dart';
 import 'package:bloodbook/loactionModel.dart';
 import 'package:bloodbook/post.dart';
+import 'package:flexible/flexible.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'address.dart';
 import 'package:location/location.dart';
 import 'package:geoflutterfire/geoflutterfire.dart';
@@ -93,79 +97,99 @@ class _Feed2PageState extends State<Feed2Page> with SingleTickerProviderStateMix
   }
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Scaffold(
-          appBar: new AppBar(
-            automaticallyImplyLeading: false,
-            backgroundColor: Colors.white,
-            elevation: 0.0,
-            title: Center(child: Text("          BloodBook",style: TextStyle(color:Color(0xFFF6B2C0),fontFamily: "Pacifico",fontSize: 30.0),)),
-            actions: <Widget>[
-              IconButton(
-                icon: Icon(
-                  Icons.dehaze,
-                  color: Color(0xFFF6B2C0),
+    return WillPopScope(
+      onWillPop: ()async{
+        SystemNavigator.pop();
+        return false;
+      },
+      child: SafeArea(
+        child: Scaffold(
+            appBar: new AppBar(
+              automaticallyImplyLeading: false,
+              backgroundColor: Colors.white,
+              elevation: 0.0,
+              title: Center(child: Text("          BloodBook",style: TextStyle(color:Color(0xFFF6B2C0),fontFamily: "Pacifico",fontSize: flexible(context, 30)),)),
+              actions: <Widget>[
+                IconButton(
+                  icon: Icon(
+                    Icons.dehaze,
+                    color: Color(0xFFF6B2C0),
+                  ),
+                  onPressed: () {
+                    // do something
+                  },
                 ),
-                onPressed: () {
-                  // do something
-                },
-              ),
-              SizedBox(width: 10.0,),
-            ],
-          ),
-          backgroundColor: Colors.white,
-          body: SingleChildScrollView(
-            child: Column(
-              children: <Widget>[
-                SizedBox(height: 10.0,),
-                Row(
-                  children: <Widget>[
-                    FlatButton(
-                      onPressed: (){
-                        listOfUser.clear();
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => PostPage(
-                                username: username,
-                                phnnumber:phnnumber,
-                              )),
-                        );
-                      },
-                      child: Container(
-                        height: 40,
-                        width: 180,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(20),
-                          border: Border.all(color: Color(0xFFF6B2C0)),
-                        ),
-                        child: Center(child: Text("Push a Request",style: TextStyle(
-                            color: Colors.grey,
-                            fontSize: 15.0
-                        ),)),
-                      ),
-                    ),
-                    Column(
-                      //mainAxisAlignment: MainAxisAlignment.end,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: <Widget>[
-                        Text('Location: ',style: TextStyle(color: Colors.grey,fontWeight: FontWeight.bold),),
-                        Text("Naharpur,135001,",style: TextStyle(color: Colors.grey),),
-                        //Text('135001,',style: TextStyle(color: Colors.grey),),
-                        Text('Haryana',style: TextStyle(color: Colors.grey),),
-                      ],
-                    ),
-                  ],
+                FlatButton(
+                  child: Text("logout"),
+                  onPressed: ()async{
+                    FirebaseAuth.instance.signOut();
+                    final storage = FlutterSecureStorage();
+                    await storage.deleteAll();
+                    Navigator.push(context, MaterialPageRoute(builder: (context){
+                      return FirstPage();
+                    }));
+                  },
                 ),
-                Container(
-                  height: 560,
-                  width: 400.0,
-                  child: _postList(),
-                ),
+                SizedBox(width: 10.0,),
               ],
             ),
-          )
-      ),);
+            backgroundColor: Colors.white,
+            body: SingleChildScrollView(
+              child: Column(
+                children: <Widget>[
+                  SizedBox(height: flexible(context, 10),),
+                  Row(
+                    children: <Widget>[
+                      FlatButton(
+                        onPressed: (){
+                          listOfUser.clear();
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => PostPage(
+                                  username: username,
+                                  phnnumber:phnnumber,
+                                )),
+                          );
+                        },
+                        child: Container(
+                          height: flexible(context, 40),
+                          width: 180,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(20),
+                            border: Border.all(color: Color(0xFFF6B2C0)),
+                          ),
+                          child: Center(child: Text("Push a Request",style: TextStyle(
+                              color: Colors.grey,
+                              fontSize: flexible(context, 15)
+                          ),)),
+                        ),
+                      ),
+                      Column(
+                        //mainAxisAlignment: MainAxisAlignment.end,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: <Widget>[
+                          Text('Location: ',style: TextStyle(color: Colors.grey,fontWeight: FontWeight.bold),),
+                          Text("Naharpur,135001,",style: TextStyle(color: Colors.grey),),
+                          //Text('135001,',style: TextStyle(color: Colors.grey),),
+                          Text('Haryana',style: TextStyle(color: Colors.grey),),
+                        ],
+                      ),
+                    ],
+                  ),
+                  SizedBox(height: flexible(context, 10),),
+                  SingleChildScrollView(
+                    child: Container(
+                      height: flexible(context, 550),
+                      width: flexible(context, 400.0),
+                      child: _postList(),
+                    ),
+                  ),
+                ],
+              ),
+            )
+        ),),
+    );
   }
   Widget _postList(){
     if(vis){
@@ -193,7 +217,7 @@ class _Feed2PageState extends State<Feed2Page> with SingleTickerProviderStateMix
         body: Center(
           child: SpinKitDoubleBounce(
             color:Colors.grey,
-            size:100.0,
+            size:flexible(context, 100),
           ),),);
     }
   }

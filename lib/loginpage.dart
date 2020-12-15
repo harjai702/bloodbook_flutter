@@ -1,5 +1,7 @@
 import 'dart:async';
+import 'package:bloodbook/resetpass.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:geoflutterfire/geoflutterfire.dart';
 import 'package:flexible/flexible.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -168,12 +170,15 @@ Widget build(BuildContext context) {
                     color: Color(0xFFF6B2C0),
                   ),
                   child:FlatButton(
-                    onPressed: (){
+                    onPressed: ()async{
                       setState(() {
                         vis=false;
                       });
                       FirebaseAuth.instance.signInWithEmailAndPassword(email: _email, password: _password)
-                          .then((FutureOr user){
+                          .then((FutureOr user) async{
+                        final storage = new FlutterSecureStorage();
+                        await storage.write(key: 'userID', value: _email);
+                        await storage.write(key: 'password', value:_password);
                         Navigator.of(context).pushReplacementNamed('/feedpage');
                       })
                           .catchError((e){
@@ -220,7 +225,12 @@ Widget build(BuildContext context) {
               padding: EdgeInsets.fromLTRB(16, 0, 16, 16),
               child: InkWell(
                 onTap: (){
-                  Navigator.of(context).pushReplacementNamed('/testpage');
+                  Navigator.pushReplacement(context,
+                      MaterialPageRoute(builder:
+                          (context) => ResetPass()
+                      )
+                  );
+                  //Navigator.of(context).pushReplacementNamed('/testpage');
                 },
                 child: Text('Forget Password?',style: TextStyle(color: Color(0xFFF6B2C0)),),
               ),

@@ -1,6 +1,8 @@
 import 'package:bloodbook/entrypage.dart';
 import 'package:bloodbook/loginpage.dart';
 import 'package:bloodbook/testpage.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'signuppage.dart';
 import 'dart:async';
 import 'feed2.dart';
@@ -12,8 +14,17 @@ import 'phnsignup.dart';
 import 'post.dart';
 import 'entrypage.dart';
 import 'testpage2.dart';
-void main() { runApp(MyApp());
-Firebase.initializeApp();}
+
+String userID;
+String password;
+void main() async {
+  runApp(MyApp());
+Firebase.initializeApp();
+  WidgetsFlutterBinding.ensureInitialized();
+  final storage = FlutterSecureStorage();
+  userID= await storage.read(key: 'userID');
+  password=await storage.read(key: 'password');
+}
 
 class MyApp extends StatelessWidget {
   @override
@@ -44,15 +55,25 @@ class MyHomePage extends StatefulWidget {
         SplashScreenState createState() => SplashScreenState();
         }
         class SplashScreenState extends State<MyHomePage> {
+
+          void getlogin(context){
+            FirebaseAuth.instance.signInWithEmailAndPassword(email: userID, password: password);
+            Navigator.pushReplacement(context,
+                MaterialPageRoute(builder:
+                    (context) => Feed2Page()
+                )
+            );
+
+          }
         @override
         void initState() {
         super.initState();
         Timer(Duration(seconds: 3),
-        ()=>Navigator.pushReplacement(context,
+        ()=>(userID==null)?Navigator.pushReplacement(context,
         MaterialPageRoute(builder:
                 (context) => FirstPage()
             )
-        )
+        ):getlogin(context),
     );
   }
   @override
@@ -60,7 +81,8 @@ class MyHomePage extends StatefulWidget {
     return Container(
       color: Colors.white,
       child: Center(
-        child: Image(
+        child:
+        Image(
           image: AssetImage('assets/images/logobapp.gif'),
         ),
       ),

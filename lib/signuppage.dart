@@ -43,6 +43,7 @@ class _MySignupPageState extends State<SignupPage> with SingleTickerProviderStat
   Widget build(BuildContext context) {
     return SafeArea(
       child:Scaffold(
+        backgroundColor: Colors.white,
       body:SingleChildScrollView(
         child:Column(
           children: <Widget>[
@@ -83,187 +84,202 @@ class _MySignupPageState extends State<SignupPage> with SingleTickerProviderStat
               ),
             ),
             Padding(
-              padding: EdgeInsets.fromLTRB(30, 30, 30, 0),
-              child:Column(
-                children: <Widget>[
-                  Container(
-                    padding: EdgeInsets.fromLTRB(8, 8, 8, 0),
-                    decoration: BoxDecoration(
-                        border: Border(bottom: BorderSide(color: Colors.grey[100]))
-                    ),
-                    child: TextFormField(
-                      decoration: InputDecoration(
-                        border: InputBorder.none,
-                        hintText: "Full Name *",
-                        hintStyle: TextStyle(color:Colors.grey[500]),
+              padding: EdgeInsets.fromLTRB(20, 30, 20, 0),
+              child:Container(
+                decoration: BoxDecoration(
+                    color:Colors.white,
+                    borderRadius: BorderRadius.circular(10),
+                    boxShadow: [
+                      BoxShadow(
+                          color: Color.fromRGBO(20, 21, 24, .2),
+                          blurRadius: 20.0,
+                          offset: Offset(0, 10)
+                      )
+                    ]
+                  //#FFECEE
+                ),
+                child: Column(
+                  children: <Widget>[
+                    Container(
+                      padding: EdgeInsets.fromLTRB(8, 8, 8, 0),
+                      decoration: BoxDecoration(
+                          border: Border(bottom: BorderSide(color: Colors.grey[100]))
                       ),
-                      onChanged: (value){
-                        setState(() {
-                          _name=value;
+                      child: TextFormField(
+                        decoration: InputDecoration(
+                          border: InputBorder.none,
+                          hintText: "Full Name *",
+                          hintStyle: TextStyle(color:Colors.grey[500]),
+                        ),
+                        onChanged: (value){
+                          setState(() {
+                            _name=value;
 
-                        });
-                      },
-                    ),
-                  ),//name
-                  Container(
-                    padding: EdgeInsets.fromLTRB(8, 5, 8, 0),
-                    decoration: BoxDecoration(
-                        border: Border(bottom: BorderSide(color: Colors.grey[100]))
-                    ),
-                    child: TextFormField(
-                      decoration: InputDecoration(
-                        border: InputBorder.none,
-                        hintText: "Email *",
-                        hintStyle: TextStyle(color:Colors.grey[500]),
+                          });
+                        },
                       ),
-                      onChanged: (value){
-                        setState(() {
-                          _email=value;
-                        });
-                      },
-                    ),
-                  ),//email
-                  Container(
-                    padding: EdgeInsets.fromLTRB(8, 5, 8, 0),
-                    decoration: BoxDecoration(
-                        border: Border(bottom: BorderSide(color: Colors.grey[100]))
-                    ),
-                    child: TextFormField(
-                      decoration: InputDecoration(
-                        border: InputBorder.none,
-                        hintText: "Password *",
-                        hintStyle: TextStyle(color:Colors.grey[500]),
+                    ),//name
+                    Container(
+                      padding: EdgeInsets.fromLTRB(8, 5, 8, 0),
+                      decoration: BoxDecoration(
+                          border: Border(bottom: BorderSide(color: Colors.grey[100]))
                       ),
-                      onChanged: (value){
-                        setState(() {
-                          _password=value;
-                        });
-                      },
-                    ),
-                  ),//password
-                  Container(
-                    padding: EdgeInsets.fromLTRB(4, 5, 90, 0),
-                    decoration: BoxDecoration(
-                        border: Border(bottom: BorderSide(color: Colors.grey[100]))
-                    ),
-                    child: DropdownButton<String>(
-                      items: [
-                        DropdownMenuItem<String>(
-                          child: Row(
-                            children: <Widget>[
-                              Text('AB+',style: TextStyle(color: Colors.grey),),
-                            ],
-                          ),
-                          value: 'one',
+                      child: TextFormField(
+                        decoration: InputDecoration(
+                          border: InputBorder.none,
+                          hintText: "Email *",
+                          hintStyle: TextStyle(color:Colors.grey[500]),
                         ),
-                        DropdownMenuItem<String>(
-                          child: Row(
-                            children: <Widget>[
-                              Text('B+',style: TextStyle(color: Colors.grey)),
-                            ],
-                          ),
-                          value: 'B+',
+                        onChanged: (value){
+                          setState(() {
+                            _email=value;
+                          });
+                        },
+                      ),
+                    ),//email
+                    Container(
+                      padding: EdgeInsets.fromLTRB(8, 5, 8, 0),
+                      decoration: BoxDecoration(
+                          border: Border(bottom: BorderSide(color: Colors.grey[100]))
+                      ),
+                      child: TextFormField(
+                        decoration: InputDecoration(
+                          border: InputBorder.none,
+                          hintText: "Password *",
+                          hintStyle: TextStyle(color:Colors.grey[500]),
                         ),
-                      ],
-                      onChanged: (String value) {
-                        setState(() {
-                          bgroup = value;
-                        });
-                      },
-                      hint: Text('Select your Blood Group *',style: TextStyle(color: Colors.grey),),
-                      value: bgroup,
+                        onChanged: (value){
+                          setState(() {
+                            _password=value;
+                          });
+                        },
+                      ),
+                    ),//password
+                    Container(
+                      padding: EdgeInsets.fromLTRB(4, 5, 90, 0),
+                      decoration: BoxDecoration(
+                          border: Border(bottom: BorderSide(color: Colors.grey[100]))
+                      ),
+                      child: DropdownButton<String>(
+                        items: [
+                          DropdownMenuItem<String>(
+                            child: Row(
+                              children: <Widget>[
+                                Text('AB+',style: TextStyle(color: Colors.grey),),
+                              ],
+                            ),
+                            value: 'one',
+                          ),
+                          DropdownMenuItem<String>(
+                            child: Row(
+                              children: <Widget>[
+                                Text('B+',style: TextStyle(color: Colors.grey)),
+                              ],
+                            ),
+                            value: 'B+',
+                          ),
+                        ],
+                        onChanged: (String value) {
+                          setState(() {
+                            bgroup = value;
+                          });
+                        },
+                        hint: Text('Select your Blood Group *',style: TextStyle(color: Colors.grey),),
+                        value: bgroup,
 
-                    ),
-                  ),//bloodgroup
-                  Container(
-                    padding: EdgeInsets.fromLTRB(8, 5, 8, 0),
-                    decoration: BoxDecoration(
-                        border: Border(bottom: BorderSide(color: Colors.grey[100]))
-                    ),
-                    child: TextField(
-                      //maxLength: 10,
-                      //maxLengthEnforced: true,
-                      keyboardType: TextInputType.number,
-                      inputFormatters: <TextInputFormatter>[FilteringTextInputFormatter.digitsOnly],
-                      decoration: InputDecoration(
-                        border: InputBorder.none,
-                        hintText: "Your Mobile Number *",
-                        hintStyle: TextStyle(color:Colors.grey[500]),
                       ),
-                      onChanged: (value){
-                        setState(() {
-                          phnnumber=value;
-                        });
-                      },
-                    ),
-                  ),//mobilenumber
-                  Container(
-                    padding: EdgeInsets.fromLTRB(4, 5, 100, 0),
-                    decoration: BoxDecoration(
-                        border: Border(bottom: BorderSide(color: Colors.grey[100]))
-                    ),
-                    child: DropdownButton<String>(
-                      items: [
-                        DropdownMenuItem<String>(
-                          child: Row(
-                            children: <Widget>[
-                              Text('Male',style: TextStyle(color: Colors.grey),),
-                            ],
-                          ),
-                          value: 'Male',
+                    ),//bloodgroup
+                    Container(
+                      padding: EdgeInsets.fromLTRB(8, 5, 8, 0),
+                      decoration: BoxDecoration(
+                          border: Border(bottom: BorderSide(color: Colors.grey[100]))
+                      ),
+                      child: TextField(
+                        //maxLength: 10,
+                        //maxLengthEnforced: true,
+                        keyboardType: TextInputType.number,
+                        inputFormatters: <TextInputFormatter>[FilteringTextInputFormatter.digitsOnly],
+                        decoration: InputDecoration(
+                          border: InputBorder.none,
+                          hintText: "Your Mobile Number *",
+                          hintStyle: TextStyle(color:Colors.grey[500]),
                         ),
-                        DropdownMenuItem<String>(
-                          child: Row(
-                            children: <Widget>[
-                              Text('Female',style: TextStyle(color: Colors.grey)),
-                            ],
+                        onChanged: (value){
+                          setState(() {
+                            phnnumber=value;
+                          });
+                        },
+                      ),
+                    ),//mobilenumber
+                    Container(
+                      padding: EdgeInsets.fromLTRB(4, 5, 100, 0),
+                      decoration: BoxDecoration(
+                          border: Border(bottom: BorderSide(color: Colors.grey[100]))
+                      ),
+                      child: DropdownButton<String>(
+                        items: [
+                          DropdownMenuItem<String>(
+                            child: Row(
+                              children: <Widget>[
+                                Text('Male',style: TextStyle(color: Colors.grey),),
+                              ],
+                            ),
+                            value: 'Male',
                           ),
-                          value: 'Female',
-                        ),
-                        DropdownMenuItem<String>(
-                          child: Row(
-                            children: <Widget>[
-                              Text('Not Willing to disclose',style: TextStyle(color: Colors.grey)),
-                            ],
+                          DropdownMenuItem<String>(
+                            child: Row(
+                              children: <Widget>[
+                                Text('Female',style: TextStyle(color: Colors.grey)),
+                              ],
+                            ),
+                            value: 'Female',
                           ),
-                          value: 'null',
-                        ),
-                      ],
-                      onChanged: (String value) {
-                        setState(() {
-                          gender = value;
-                        });
-                      },
-                      hint: Text('Gender *                           ',style: TextStyle(color: Colors.grey),),
-                      value: gender,
+                          DropdownMenuItem<String>(
+                            child: Row(
+                              children: <Widget>[
+                                Text('Not Willing to disclose',style: TextStyle(color: Colors.grey)),
+                              ],
+                            ),
+                            value: 'null',
+                          ),
+                        ],
+                        onChanged: (String value) {
+                          setState(() {
+                            gender = value;
+                          });
+                        },
+                        hint: Text('Gender *                           ',style: TextStyle(color: Colors.grey),),
+                        value: gender,
 
-                    ),
-                  ),//gender
-                  Container(
-                    padding: EdgeInsets.fromLTRB(8, 5, 8, 0),
-                    decoration: BoxDecoration(
-                        border: Border(bottom: BorderSide(color: Colors.grey[100]))
-                    ),
-                    child: TextField(
-                      //maxLength: 10,
-                      //maxLengthEnforced: true,
-                      keyboardType: TextInputType.number,
-                      inputFormatters: <TextInputFormatter>[FilteringTextInputFormatter.digitsOnly],
-                      decoration: InputDecoration(
-                        border: InputBorder.none,
-                        hintText: "Age *",
-                        hintStyle: TextStyle(color:Colors.grey[500]),
                       ),
-                      onChanged: (value){
-                        setState(() {
-                          age=value;
-                        });
-                      },
-                    ),
-                  ),//age
-                ],
+                    ),//gender
+                    Container(
+                      padding: EdgeInsets.fromLTRB(8, 5, 8, 0),
+                      decoration: BoxDecoration(
+                          border: Border(bottom: BorderSide(color: Colors.grey[100]))
+                      ),
+                      child: TextField(
+                        //maxLength: 10,
+                        //maxLengthEnforced: true,
+                        keyboardType: TextInputType.number,
+                        inputFormatters: <TextInputFormatter>[FilteringTextInputFormatter.digitsOnly],
+                        decoration: InputDecoration(
+                          border: InputBorder.none,
+                          hintText: "Age *",
+                          hintStyle: TextStyle(color:Colors.grey[500]),
+                        ),
+                        onChanged: (value){
+                          setState(() {
+                            age=value;
+                          });
+                        },
+                      ),
+                    ), //age
+                  ],
+                ),
               ),
             ),
+            SizedBox(height: 15,),
             Visibility(
               visible: vis3,
               child:Text('Please fill all the required fields',style: TextStyle(fontWeight: FontWeight.bold,color: Colors.red),),
