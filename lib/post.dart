@@ -18,11 +18,11 @@ class _MyPostPageState extends State<PostPage> with SingleTickerProviderStateMix
   GeoFirePoint loc;
   final geo = Geoflutterfire();
   String phnnumber;
-  String bgroup;
+  String bgroup="";
   String address="";
   String address2="";
-  String city;
-  String state;
+  String city="";
+  String state="";
   bool vis=true;
   bool vis2=false;
   bool vis3=false;
@@ -119,6 +119,9 @@ class _MyPostPageState extends State<PostPage> with SingleTickerProviderStateMix
                       ),
                       onChanged: (value){
                         setState(() {
+                          if(phnnumber==null){
+                            phnnumber=widget.phnnumber;
+                          }
                           bgroup=value;
                         });
                       },

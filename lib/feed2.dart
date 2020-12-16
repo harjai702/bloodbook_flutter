@@ -1,3 +1,5 @@
+import 'dart:collection';
+
 import 'package:bloodbook/card.dart';
 import 'package:bloodbook/entrypage.dart';
 import 'package:bloodbook/loactionModel.dart';
@@ -20,11 +22,13 @@ class Feed2Page extends StatefulWidget {
 }
 class _Feed2PageState extends State<Feed2Page> with SingleTickerProviderStateMixin {
   var uuid;
+  static const color=Color(0xFFF6B2C0);
   String username;
   String phnnumber;
   Stream<List<DocumentSnapshot>> stream;
   final geo = Geoflutterfire();
   List<GeoLocationInfo> listOfUser= new List<GeoLocationInfo>();
+  //LinkedHashSet<GeoLocationInfo> listOfUser2= new LinkedHashSet<GeoLocationInfo>();
   var selectedDoc;
   bool vis=false;
   @override
@@ -77,18 +81,24 @@ class _Feed2PageState extends State<Feed2Page> with SingleTickerProviderStateMix
     setState(() {
       stream = geo.collection(collectionRef: collectionReference)
           .within(center: center, radius: radius, field: field);
+      //listOfUser.clear();
+      print("hello where....");
     });
     stream.listen((List<DocumentSnapshot> documentList) {
+      setState(() {
+        listOfUser.clear();
+      });
+      print("hello there....");
       documentList.forEach((element) {
         GeoLocationInfo user;
         user=GeoLocationInfo.fromJson(element.data());
         listOfUser.add(user);
       });
       setState(() {
+        print("Hello here...");
         listOfUser=listOfUser;
         vis=true;
         listOfUser.sort((a, b) => b.date.compareTo(a.date));
-        //listOfUser.sort();
       });
     });
     /*location.onLocationChanged.listen((LocationData currentLocation) {
@@ -112,15 +122,18 @@ class _Feed2PageState extends State<Feed2Page> with SingleTickerProviderStateMix
               actions: <Widget>[
                 IconButton(
                   icon: Icon(
-                    Icons.dehaze,
+                    Icons.menu,
                     color: Color(0xFFF6B2C0),
                   ),
                   onPressed: () {
                     // do something
                   },
                 ),
-                FlatButton(
-                  child: Text("logout"),
+                IconButton(
+                  icon: Icon(
+                    Icons.remove,
+                    color: Color(0xFFF6B2C0),
+                  ),
                   onPressed: ()async{
                     FirebaseAuth.instance.signOut();
                     final storage = FlutterSecureStorage();
@@ -142,7 +155,7 @@ class _Feed2PageState extends State<Feed2Page> with SingleTickerProviderStateMix
                     children: <Widget>[
                       FlatButton(
                         onPressed: (){
-                          listOfUser.clear();
+                          //listOfUser.clear();
                           Navigator.push(
                             context,
                             MaterialPageRoute(
@@ -197,14 +210,14 @@ class _Feed2PageState extends State<Feed2Page> with SingleTickerProviderStateMix
         itemCount: listOfUser.length,
         //padding: EdgeInsets.all(5.0),
         itemBuilder: (context,i){
-          String address=listOfUser[i].address1.toString()+","+listOfUser[i].address2.toString()+","+listOfUser[i].city.toString()+","+listOfUser[i].state.toString();
+          String address=listOfUser.elementAt(i).address1.toString()+","+listOfUser.elementAt(i).address2.toString()+","+listOfUser.elementAt(i).city.toString()+","+listOfUser.elementAt(i).state.toString();
           return new CardUi(
-            name: listOfUser[i].name,
-            bgroup: listOfUser[i].bgroup,
-            userId: listOfUser[i].usrid,
+            name: listOfUser.elementAt(i).name,
+            bgroup: listOfUser.elementAt(i).bgroup,
+            userId: listOfUser.elementAt(i).usrid,
             adress: address,
-            date: listOfUser[i].date,
-            phnnumber:listOfUser[i].phnnumber,
+            date: listOfUser.elementAt(i).date,
+            phnnumber:listOfUser.elementAt(i).phnnumber,
             //adress: (listOfUser[i].address1.to+","+listOfUser[i].address2+","+listOfUser[i].address3+","+listOfUser[i].address4).toString(),
           );
         },
@@ -215,10 +228,11 @@ class _Feed2PageState extends State<Feed2Page> with SingleTickerProviderStateMix
     else{
       return Scaffold(
         body: Center(
-          child: SpinKitDoubleBounce(
-            color:Colors.grey,
-            size:flexible(context, 100),
-          ),),);
+          child: new CircularProgressIndicator(
+            backgroundColor: Colors.grey,valueColor: new AlwaysStoppedAnimation<Color>(Color(0xFFE7AEBF))
+            ,),
+        ),
+      );
     }
   }
 }
