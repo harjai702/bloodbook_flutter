@@ -9,7 +9,7 @@ class CardUi extends StatefulWidget {
 }
 
 class _CardUiState extends State<CardUi> {
-  static const col=Color(0xFFF6B2C0);
+  static const col=Color(0xFFF6B2C0);//contstant color declaration
   @override
   Widget build(BuildContext context) {
     return Padding(
